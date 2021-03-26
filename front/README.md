@@ -1,3 +1,22 @@
+## Инструкция по запуску фронта приложения в docker
+
+1. Запустить docker
+2. Перейти в директорию hh-gowork/front
+3. Выполнить последовательно команды
+
+```
+docker build -t hh-gowork .
+```
+```
+docker run --rm -it -p 80:80 hh-gowork
+```
+
+4. Перейти в браузере по адресу, который использует docker
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
