@@ -1,0 +1,21 @@
+version: "2.2"
+
+services:
+  postgres:
+    image: postgres:13.2-alpine
+    restart: always
+    volumes:
+      - ./migrations/:/docker-entrypoint-initdb.d/
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: hh
+      POSTGRES_DB: hh
+      POSTGRES_USER: hh
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hh"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # add backend service here, built from Dockerfile
