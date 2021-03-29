@@ -5,25 +5,35 @@ import {
     Route,
     Link
 } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+
+import Counter from './features/counter/counter';
+import { increment } from './features/counter/counterSlice';
+
 import Home from "./components/home/home";
 import Courses from "./components/courses/courses";
 import Settings from "./components/settings/settings";
 
+
 function Router() {
+    const dispatch = useDispatch();
+
     return (
         <BrowserRouter>
             <div>
                 <ul>
                     <li>
-                        <Link to="/">GoWork</Link>
+                        <Link to="/" onClick={() => dispatch(increment())}>GoWork</Link>
                     </li>
                     <li>
-                        <Link to="/courses">Courses</Link>
+                        <Link to="/courses" onClick={() => dispatch(increment())}>Courses</Link>
                     </li>
                     <li>
-                        <Link to="/settings">Settings</Link>
+                        <Link to="/settings" onClick={() => dispatch(increment())}>Settings</Link>
                     </li>
                 </ul>
+
+                <Counter />
 
             <hr />
 
