@@ -25,7 +25,7 @@ docker build -t <your username>/hh-gowork .
 Следующая команда создает и запускает контейнер на основе созданного с помощью `Dockerfile` образа:
 
 ```
-docker run --rm -it -p 3000:80 hh-gowork
+docker run --rm -it -p 3000:80 <your username>/hh-gowork
 ```
 
 Флаг `--rm` — автоматическое удаление остановленного контейнера.
@@ -42,7 +42,7 @@ docker run --rm -it -p 3000:80 hh-gowork
 
 
 
-# Getting Started with Create React App and Redux
+# Getting Started with React Redux App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 

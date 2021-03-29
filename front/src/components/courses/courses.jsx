@@ -1,13 +1,13 @@
 import React from "react";
 
-function Settings() {
+function Courses() {
     return (
         <React.Fragment>
         <div>
-            <h1>Settings</h1>
+            <h1>Courses</h1>
         </div>
         </React.Fragment>
     );
 }
 
-export default Settings;
+export default Courses;

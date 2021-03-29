@@ -1,4 +1,4 @@
-FROM node:15-alpine AS builder
+FROM node:15 AS builder
 
 WORKDIR /hh-gowork
 
@@ -7,7 +7,7 @@ COPY . .
 RUN yarn install \
  && yarn build
 
-FROM nginx:alpine
+FROM nginx
 
 WORKDIR /usr/share/nginx/html
 
