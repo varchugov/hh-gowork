@@ -1,9 +1,18 @@
-FROM node:12 AS builder
-WORKDIR /gowork
+FROM node:15 AS builder
+
+WORKDIR /hh-gowork/
+
 COPY . .
-RUN yarn install && yarn build
-FROM nginx:alpine
-WORKDIR /usr/share/nginx/html
-RUN rm -rf ./*
-COPY --from=builder /gowork/build .
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+
+RUN yarn install \
+ && yarn build
+
+FROM nginx
+
+WORKDIR /usr/share/nginx/html/
+
+RUN rm -Rf ./*
+
+COPY --from=builder /hh-gowork/build/ .
+
+CMD ["nginx", "-g", "daemon off;"]

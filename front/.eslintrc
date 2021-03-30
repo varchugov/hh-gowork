@@ -1,0 +1,16 @@
+{
+    "root": true,
+    // https://github.com/hhru/eslint-config-hh
+    "extends": ["@hh.ru/eslint-config", "prettier", "plugin:react/recommended"],
+    "plugins": ["prettier", "react"],
+    "rules": {
+        "prettier/prettier": ["warn"],
+        "import/extensions": "off",
+        "import/no-unresolved": "off",
+        "no-restricted-imports": "off",
+        "no-console": "off"
+    },
+    "parserOptions": {
+        "ecmaVersion": 12
+    }
+}

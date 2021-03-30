@@ -1,0 +1,11 @@
+# This line does two things:
+# - enable git's CRLF -> LF modification
+# - tell git to guess whether files are text or binary
+*         text=auto
+
+# Mark .pnp.cjs as binary to prevent git from trying to merge it
+/.pnp.*   binary linguist-generated
+
+# Hide .yarn and docs from GitHub's language detection
+/.yarn/** linguist-vendored
+/docs/**  linguist-documentation

@@ -1,0 +1,8 @@
+# npm dependencies
+node_modules
+
+# testing
+coverage
+
+# production
+build
