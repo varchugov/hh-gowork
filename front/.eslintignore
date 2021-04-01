@@ -1,3 +1,9 @@
+# See https://eslint.org/docs/user-guide/configuring/ignoring-code for more about ignoring files.
+
+# yarnpkg dependencies
+.yarn/*
+.pnp.*
+
 # npm dependencies
 node_modules
 

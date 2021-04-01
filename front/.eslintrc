@@ -1,10 +1,11 @@
 {
     "root": true,
+    "parser": "babel-eslint",
     // https://github.com/hhru/eslint-config-hh
     "extends": ["@hh.ru/eslint-config", "prettier", "plugin:react/recommended"],
     "plugins": ["prettier", "react"],
     "rules": {
-        "prettier/prettier": ["warn"],
+        "prettier/prettier": ["error"],
         "import/extensions": "off",
         "import/no-unresolved": "off",
         "no-restricted-imports": "off",
