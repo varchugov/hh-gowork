@@ -1,17 +1,17 @@
 import { makeObservable, observable, action } from 'mobx';
 
 class Store {
-    linkClicksCount = 0;
+    signUpStep = 0;
 
     constructor() {
         makeObservable(this, {
-            linkClicksCount: observable,
-            updateLinkClicksCount: action,
+            signUpStep: observable,
+            incrementSignUpStep: action,
         });
     }
 
-    updateLinkClicksCount = () => {
-        this.linkClicksCount += 1;
+    incrementSignUpStep = () => {
+        this.signUpStep += 1;
     };
 }
 
