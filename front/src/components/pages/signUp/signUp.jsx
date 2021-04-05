@@ -1,9 +1,11 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Select, MenuItem, Button, Container, MobileStepper, Link, Box } from '@material-ui/core';
+import { Select, MenuItem, Container, MobileStepper, Box } from '@material-ui/core';
 import { withTheme } from '@material-ui/core/styles';
-import SignUpForm from './components/signUpForm';
-import SubmitButton from './components/submitButton';
+import Form from '../../shared/form';
+import SubmitButton from '../../shared/submitButton';
+import HomePageLink from '../../shared/homePageLink';
+import LinkButton from '../../shared/linkButton';
 import store from '../../../store/store';
 
 const SignUp = observer((props) => {
@@ -15,24 +17,18 @@ const SignUp = observer((props) => {
                 <br />
                 прямо сейчас
             </Box>
-            <SignUpForm textFieldName="E-Mail" submitButtonText="Регистрация" />
-            <Box textAlign="center" py={2}>
-                <Button variant="contained" color="primary" size="small" href="/">
-                    <Box component="span" width={170} fontWeight="fontWeightBold">
-                        ВОЙТИ
-                    </Box>
-                </Button>
-            </Box>
+            <Form textFields={['E-Mail']} submitButtonText="Регистрация" onSubmit={store.incrementSignUpStep} />
+            <LinkButton href="/signin" name="Войти" />
         </React.Fragment>,
         <React.Fragment key="1">
-            <Box style={props.theme.h3}>Придумайте пароль, чтобы зайти в тренажер</Box>
-            <SignUpForm textFieldName="Пароль" submitButtonText="Далее" />
-            <Box mt={3} style={props.theme.h4} textAlign="center">
+            <Box style={props.theme.h4}>Придумайте пароль, чтобы зайти в тренажер</Box>
+            <Form textFields={['Пароль']} submitButtonText="Далее" onSubmit={store.incrementSignUpStep} />
+            <Box mt={3} style={props.theme.h5} textAlign="center">
                 Шаг 2 из 3-х
             </Box>
         </React.Fragment>,
         <React.Fragment key="2">
-            <Box style={props.theme.h3}>В какой профессиональной области вы ищете работу?</Box>
+            <Box style={props.theme.h4}>В какой профессиональной области вы ищете работу?</Box>
             <Box px={2} py={6}>
                 <Select labelId="label" value="item-0" variant="outlined" fullWidth={true}>
                     <MenuItem value="item-0">Профессия 1</MenuItem>
@@ -45,12 +41,8 @@ const SignUp = observer((props) => {
 
     return (
         <Container>
-            <Box py={2} style={props.theme.h3} fontWeight="fontWeightBold">
-                <Link href="/" color="inherit">
-                    GoWork
-                </Link>
-            </Box>
-            <Box maxWidth={340} mx="auto">
+            <HomePageLink />
+            <Box maxWidth={props.theme.form.maxWidth} mx="auto">
                 {tutorialSteps[store.signUpStep]}
                 <MobileStepper
                     steps={tutorialSteps.length}
