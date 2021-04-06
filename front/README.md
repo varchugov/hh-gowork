@@ -40,8 +40,6 @@ docker run --rm -it -p 3000:80 <your username>/hh-gowork
 
 Запустите командой созданный образ и через несколько секунд откройте в браузере страницу [localhost:3000](http://localhost:3000/).
 
-
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
