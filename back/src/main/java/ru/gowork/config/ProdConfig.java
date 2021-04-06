@@ -1,6 +1,5 @@
 package ru.gowork.config;
 
-import ru.gowork.resource.ExampleResource;
 import ru.gowork.resource.StudentResource;
 import ru.gowork.dao.StudentsDao;
 import ru.gowork.mapper.StudentMapper;
@@ -19,7 +18,6 @@ import javax.sql.DataSource;
 
 @Configuration
 @Import({
-  ExampleResource.class,
   StudentResource.class,
   StudentsDao.class,
   StudentMapper.class,
