@@ -1,0 +1,50 @@
+version: '3.4'
+
+services:
+  postgres:
+    image: postgres:13.2-alpine
+    restart: always
+    volumes:
+      - ./back/migrations/:/docker-entrypoint-initdb.d/
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: hh
+      POSTGRES_DB: hh
+      POSTGRES_USER: hh
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hh"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  back:
+    image: maven:3.6.3-jdk-11
+    restart: always
+    working_dir: /mnt/app
+    command: mvn install exec:java
+    volumes:
+      - gowork-back-maven-repo:/root/.m2
+      - ./back:/mnt/app:Z
+    ports:
+      - "8080:8080"
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 180s  # first start may be long due to downloading dependencies
+  front:
+    build: ./front
+    ports:
+      - "3000:80"
+    links:
+      - back
+    depends_on:
+      - back
+volumes:
+  gowork-back-maven-repo:
