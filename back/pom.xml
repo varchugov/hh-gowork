@@ -8,6 +8,12 @@
 
     <packaging>jar</packaging>
 
+    <parent>
+        <groupId>ru.hh.public-pom</groupId>
+        <artifactId>public-pom</artifactId>
+        <version>1.37</version>
+    </parent>
+
     <properties>
         <nab.version>4.22.20</nab.version>
     </properties>

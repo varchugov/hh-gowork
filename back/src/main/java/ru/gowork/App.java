@@ -1,7 +1,5 @@
 package ru.gowork;
 
-import ru.gowork.resource.ExampleResource;
-import ru.hh.nab.common.properties.PropertiesUtils;
 import ru.hh.nab.starter.NabApplication;
 import ru.gowork.config.ProdConfig;
 
