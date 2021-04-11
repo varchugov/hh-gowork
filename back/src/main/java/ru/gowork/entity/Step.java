@@ -38,6 +38,10 @@ public class Step {
     @Column(name = "has_answer")
     private Boolean hasAnswer;
 
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb", name = "answers_explanations")
+    private Object answersExplanations;
+
     @ManyToOne
     @JoinColumn(name = "paragraph_id")
     private Paragraph paragraph;
@@ -64,5 +68,9 @@ public class Step {
 
     public Boolean getHasAnswer() {
         return hasAnswer;
+    }
+
+    public Object getAnswersExplanations() {
+        return answersExplanations;
     }
 }

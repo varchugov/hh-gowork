@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS steps (
     theory TEXT NOT NULL,
     question JSONB NOT NULL,
     correct_answers JSONB,
+    answers_explanations JSONB,
     has_answer BOOLEAN NOT NULL,
     FOREIGN KEY (paragraph_id)
               REFERENCES paragraphs (id)
