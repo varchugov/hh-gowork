@@ -1,9 +1,12 @@
 package ru.gowork.config;
 
 import ru.gowork.resource.StudentResource;
+import ru.gowork.resource.ParagraphResource;
 import ru.gowork.dao.StudentsDao;
+import ru.gowork.dao.ParagraphDao;
 import ru.gowork.mapper.StudentMapper;
 import ru.gowork.service.StudentsService;
+import ru.gowork.service.ParagraphService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +26,10 @@ import javax.sql.DataSource;
   StudentMapper.class,
   StudentsService.class,
   NabProdConfig.class,
-  NabHibernateProdConfig.class
+  NabHibernateProdConfig.class,
+  ParagraphResource.class,
+  ParagraphDao.class,
+  ParagraphService.class
 })
 public class ProdConfig {
     @Bean
