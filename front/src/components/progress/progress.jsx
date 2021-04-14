@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import store from '../../store/store';
+import store from 'src/store/store';
 
 const Progress = observer(() => (
     <React.Fragment>

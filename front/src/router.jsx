@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Home from './components/home/home';
-import Settings from './components/settings/settings';
-import Progress from './components/progress/progress';
+
+import Home from 'src/components/home/home';
+import Settings from 'src/components/settings/settings';
+import Progress from 'src/components/progress/progress';
 
 function Router() {
     return (
