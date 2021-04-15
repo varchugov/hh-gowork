@@ -1,9 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-
-import Home from 'src/components/home/home';
-import Settings from 'src/components/settings/settings';
-import Progress from 'src/components/progress/progress';
+import Home from './components/pages/home/home';
+import SignUp from './components/pages/signUp/signUp';
 
 function Router() {
     return (
@@ -12,11 +10,8 @@ function Router() {
                 <Route exact path="/">
                     <Home />
                 </Route>
-                <Route path="/settings">
-                    <Settings />
-                </Route>
-                <Route path="/progress">
-                    <Progress />
+                <Route path="/signup">
+                    <SignUp />
                 </Route>
             </Switch>
         </BrowserRouter>
