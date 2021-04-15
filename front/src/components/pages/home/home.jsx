@@ -8,6 +8,9 @@ const Home = () => (
             <li>
                 <Link to="/signup">Зарегистрироваться</Link>
             </li>
+            <li>
+                <Link to="/signin">Войти</Link>
+            </li>
         </ul>
     </React.Fragment>
 );
