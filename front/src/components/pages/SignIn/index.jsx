@@ -14,7 +14,13 @@ const Index = (props) => {
                 <Box style={props.theme.h3} mt={3}>
                     Введите данные, указанные при регистрации
                 </Box>
-                <Form textFields={['E-Mail', 'Пароль']} submitButtonText="Войти" />
+                <Form
+                    textFields={[
+                        { label: 'E-Mail', type: 'email' },
+                        { label: 'Пароль', type: 'password' },
+                    ]}
+                    submitButtonText="Войти"
+                />
                 <LinkButton href="/signup" name="Регистрация" />
             </Box>
         </Container>
