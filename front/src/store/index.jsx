@@ -7,8 +7,13 @@ class Store {
         makeObservable(this, {
             signUpStep: observable,
             incrementSignUpStep: action,
+            decrementSignUpStep: action,
         });
     }
+
+    decrementSignUpStep = () => {
+        this.signUpStep -= 1;
+    };
 
     incrementSignUpStep = () => {
         this.signUpStep += 1;
