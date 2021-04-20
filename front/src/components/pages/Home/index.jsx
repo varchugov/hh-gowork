@@ -12,6 +12,9 @@ function Home() {
                 <li>
                     <Link to="/signin">Войти</Link>
                 </li>
+                <li>
+                    <Link to="/course">Курс</Link>
+                </li>
             </ul>
         </React.Fragment>
     );
