@@ -1,14 +1,16 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
+
 import { Select, MenuItem, Container, MobileStepper, Box } from '@material-ui/core';
 import { withTheme } from '@material-ui/core/styles';
-import Form from '../../shared/form';
-import SubmitButton from '../../shared/submitButton';
-import HomePageLink from '../../shared/homePageLink';
-import LinkButton from '../../shared/linkButton';
-import store from '../../../store/store';
 
-const SignUp = observer((props) => {
+import store from 'src/store';
+
+import Form from 'src/components/shared/Form';
+import LinkButton from 'src/components/shared/LinkButton';
+import SubmitButton from 'src/components/shared/SubmitButton';
+
+const Index = observer((props) => {
     const tutorialSteps = [
         <React.Fragment key="0">
             <Box style={props.theme.h1}>Регистрация</Box>
@@ -41,7 +43,6 @@ const SignUp = observer((props) => {
 
     return (
         <Container>
-            <HomePageLink />
             <Box maxWidth={props.theme.form.maxWidth} mx="auto">
                 {tutorialSteps[store.signUpStep]}
                 <MobileStepper
@@ -56,4 +57,4 @@ const SignUp = observer((props) => {
     );
 });
 
-export default withTheme(SignUp);
+export default withTheme(Index);

@@ -1,13 +1,20 @@
 import React from 'react';
-import { ThemeProvider, CssBaseline } from '@material-ui/core';
-import Router from './router';
-import MuiTheme from './muiTheme';
+
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
+
+import MuiTheme from 'src/MuiTheme';
+
+import Router from 'src/Router';
+import Header from 'src/components/shared/Header';
 
 function App() {
     return (
         <ThemeProvider theme={MuiTheme}>
             <CssBaseline />
-            <Router />
+            <Header />
+            <main>
+                <Router />
+            </main>
         </ThemeProvider>
     );
 }
