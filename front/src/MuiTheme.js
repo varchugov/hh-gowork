@@ -23,7 +23,7 @@ const MuiTheme = createMuiTheme({
         maxWidth: '340px',
     },
     typography: {
-        fontFamily: 'Roboto, Sans-Serif',
+        fontFamily: 'Roboto-light, Sans-Serif',
     },
     palette: {
         primary: green,

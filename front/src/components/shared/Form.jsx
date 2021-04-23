@@ -1,6 +1,8 @@
 import React from 'react';
+
 import { Box, TextField } from '@material-ui/core';
-import SubmitButton from './submitButton';
+
+import SubmitButton from 'src/components/shared/SubmitButton';
 
 const Form = (props) => (
     <form onSubmit={props.onSubmit}>

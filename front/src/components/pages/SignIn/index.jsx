@@ -1,14 +1,14 @@
 import React from 'react';
+
 import { Container, Box } from '@material-ui/core';
 import { withTheme } from '@material-ui/core/styles';
-import Form from '../../shared/form';
-import HomePageLink from '../../shared/homePageLink';
-import LinkButton from '../../shared/linkButton';
 
-const SignIn = (props) => {
+import Form from 'src/components/shared/Form';
+import LinkButton from 'src/components/shared/LinkButton';
+
+const Index = (props) => {
     return (
         <Container>
-            <HomePageLink />
             <Box maxWidth={props.theme.form.maxWidth} mx="auto">
                 <Box style={props.theme.h1}>Вход в тренажер</Box>
                 <Box style={props.theme.h3} mt={3}>
@@ -21,4 +21,4 @@ const SignIn = (props) => {
     );
 };
 
-export default withTheme(SignIn);
+export default withTheme(Index);
