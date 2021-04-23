@@ -3,6 +3,7 @@ import React from 'react';
 import { Container, Grid } from '@material-ui/core';
 
 import Paragraph from 'src/components/shared/Paragraph';
+import Golearn from 'src/components/shared/Golearn';
 
 const menu = {
     paragraphs: [
@@ -32,6 +33,9 @@ const menu = {
 function CourseHomepage() {
     return (
         <Container>
+            <Grid container justify="space-between">
+                <Golearn />
+            </Grid>
             <Grid container justify="space-between">
                 {menu.paragraphs.map((item) => (
                     <Grid key={item}>
