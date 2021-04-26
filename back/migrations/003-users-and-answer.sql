@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users
 	current_user_step INTEGER REFERENCES steps (id)
 );
 
-CREATE TABLE IF NOT EXISTS users_correct_answers
+CREATE TABLE IF NOT EXISTS users_answers
 (
 	id serial PRIMARY KEY,
 	user_id INTEGER NOT NULL REFERENCES users (id),

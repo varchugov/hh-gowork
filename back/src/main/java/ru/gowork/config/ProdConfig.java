@@ -1,15 +1,15 @@
 package ru.gowork.config;
 
 import ru.gowork.dao.UserDao;
-import ru.gowork.resource.RegistrationResource;
 import ru.gowork.resource.StudentResource;
 import ru.gowork.resource.ParagraphResource;
+import ru.gowork.resource.AuthResource;
 import ru.gowork.dao.StudentsDao;
 import ru.gowork.dao.ParagraphDao;
 import ru.gowork.mapper.StudentMapper;
-import ru.gowork.service.RegistrationService;
 import ru.gowork.service.StudentsService;
 import ru.gowork.service.ParagraphService;
+import ru.gowork.service.AuthService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,9 +24,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @Import({
-  RegistrationResource.class,
   UserDao.class,
-  RegistrationService.class,
   StudentResource.class,
   StudentsDao.class,
   StudentMapper.class,
@@ -35,7 +33,11 @@ import javax.sql.DataSource;
   NabHibernateProdConfig.class,
   ParagraphResource.class,
   ParagraphDao.class,
-  ParagraphService.class
+  ParagraphService.class,
+  UserDao.class,
+  AuthResource.class,
+  GwResourceConfig.class,
+  AuthService.class
 })
 public class ProdConfig {
     @Bean

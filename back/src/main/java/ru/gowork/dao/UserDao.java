@@ -26,4 +26,21 @@ public class UserDao {
     sessionFactory.getCurrentSession().save(user);
   }
 
+  @Transactional
+  public Optional<User> getUserBySessionId(String sessionId) {
+    return sessionFactory.getCurrentSession()
+            .createQuery("FROM User user WHERE user.sessionToken = :sessionId")
+            .setParameter("sessionId", sessionId)
+            .uniqueResultOptional();
+  }
+
+  @Transactional
+  public void setUserSession(String userEmail, String sessionId) {
+    sessionFactory.getCurrentSession()
+            .createSQLQuery("UPDATE users SET session_token = :sessionId WHERE email = :email")
+            .setParameter("email", userEmail)
+            .setParameter("sessionId", sessionId)
+            .executeUpdate();
+  }
+
 }
