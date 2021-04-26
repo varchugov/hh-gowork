@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS users
 (
 	id serial PRIMARY KEY,
 	username VARCHAR(127),
-	email VARCHAR(127) NOT NULL,
+	email VARCHAR(127) NOT NULL UNIQUE,
 	password_hash VARCHAR(127) NOT NULL,
 	session_token VARCHAR(127),
 	current_user_step INTEGER REFERENCES steps (id)
