@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-
-import { Select, MenuItem, Container, MobileStepper, Box } from '@material-ui/core';
+import { Select, MenuItem, Container, MobileStepper, Box, Button } from '@material-ui/core';
+import { KeyboardArrowLeft } from '@material-ui/icons';
 import { withTheme } from '@material-ui/core/styles';
 
 import store from 'src/store';
@@ -49,8 +49,17 @@ const Index = observer((props) => {
                     steps={tutorialSteps.length}
                     position="static"
                     activeStep={store.signUpStep}
-                    nextButton={<span />}
-                    backButton={<span />}
+                    nextButton={<Box flex={1} />}
+                    backButton={
+                        <Box flex={1}>
+                            {store.signUpStep !== 0 && (
+                                <Button size="small" onClick={store.decrementSignUpStep}>
+                                    <KeyboardArrowLeft />
+                                    Назад
+                                </Button>
+                            )}
+                        </Box>
+                    }
                 />
             </Box>
         </Container>
