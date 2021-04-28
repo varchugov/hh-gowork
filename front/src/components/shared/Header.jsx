@@ -6,7 +6,7 @@ import Container from '@material-ui/core/Container';
 import HomePageLink from 'src/components/shared/HomePageLink';
 
 const HeaderContent = styled.div`
-    padding: 11px;
+    padding: 11px 0px;
 `;
 
 function HeaderComponent() {
