@@ -19,12 +19,23 @@ const Index = observer((props) => {
                 <br />
                 прямо сейчас
             </Box>
-            <Form textFields={['E-Mail']} submitButtonText="Регистрация" onSubmit={store.incrementSignUpStep} />
+            <Form
+                textFields={[{ label: 'E-Mail', type: 'email' }]}
+                submitButtonText="Регистрация"
+                onSubmit={store.incrementSignUpStep}
+            />
             <LinkButton href="/signin" name="Войти" />
         </React.Fragment>,
         <React.Fragment key="1">
             <Box style={props.theme.h4}>Придумайте пароль, чтобы зайти в тренажер</Box>
-            <Form textFields={['Пароль']} submitButtonText="Далее" onSubmit={store.incrementSignUpStep} />
+            <Form
+                textFields={[
+                    { label: 'Введите пароль', type: 'password' },
+                    { label: 'Повторите пароль', type: 'password' },
+                ]}
+                submitButtonText="Далее"
+                onSubmit={store.incrementSignUpStep}
+            />
             <Box mt={3} style={props.theme.h5} textAlign="center">
                 Шаг 2 из 3-х
             </Box>

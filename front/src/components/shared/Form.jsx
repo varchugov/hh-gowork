@@ -1,20 +1,21 @@
 import React from 'react';
+import { Box } from '@material-ui/core';
+import SubmitButton from './SubmitButton';
+import ExtendedFormControl from './ExtendedFormControl';
 
-import { Box, TextField } from '@material-ui/core';
-
-import SubmitButton from 'src/components/shared/SubmitButton';
-
-const Form = (props) => (
-    <form onSubmit={props.onSubmit}>
-        {props.textFields.map((textField) => (
-            <Box key={textField} mx={2} mt={3}>
-                <TextField label={textField} required={true} variant="outlined" fullWidth={true} />
+const Form = (props) => {
+    return (
+        <form onSubmit={props.onSubmit}>
+            {props.textFields.map((textField) => (
+                <Box key={textField.label} mx={2} mt={3}>
+                    <ExtendedFormControl label={textField.label} type={textField.type} />
+                </Box>
+            ))}
+            <Box mt={3}>
+                <SubmitButton submitButtonText={props.submitButtonText} />
             </Box>
-        ))}
-        <Box mt={3}>
-            <SubmitButton submitButtonText={props.submitButtonText} />
-        </Box>
-    </form>
-);
+        </form>
+    );
+};
 
 export default Form;
