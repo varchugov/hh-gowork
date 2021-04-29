@@ -15,6 +15,9 @@ function Home() {
                 <li>
                     <Link to="/course">Курс</Link>
                 </li>
+                <li>
+                    <Link to="/test">Тест</Link>
+                </li>
             </ul>
         </React.Fragment>
     );
