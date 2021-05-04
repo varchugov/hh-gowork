@@ -6,7 +6,6 @@ services:
     restart: always
     volumes:
       - ./back/migrations/:/docker-entrypoint-initdb.d/
-      - ./back/dev/:/dev-scripts/
     ports:
       - "5432:5432"
     environment:
