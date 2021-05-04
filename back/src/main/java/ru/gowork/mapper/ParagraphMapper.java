@@ -1,5 +1,6 @@
 package ru.gowork.mapper;
 
+import ru.gowork.dto.ShortParagraphDto;
 import ru.gowork.entity.Paragraph;
 import ru.gowork.dto.ParagraphDto;
 import ru.gowork.dto.StepDto;
@@ -17,6 +18,13 @@ public class ParagraphMapper {
                 .map(StepMapper::fromEntity)
                 .collect(Collectors.toList());
         dto.setSteps(steps);
+        return dto;
+    }
+
+    public static ShortParagraphDto fromEntityShort(Paragraph paragraph) {
+        ShortParagraphDto dto = new ShortParagraphDto();
+        dto.setId(paragraph.getId());
+        dto.setName(paragraph.getName());
         return dto;
     }
 }

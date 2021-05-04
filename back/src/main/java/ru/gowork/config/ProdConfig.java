@@ -1,5 +1,8 @@
 package ru.gowork.config;
 
+import ru.gowork.mapper.ChapterMapper;
+import ru.gowork.resource.ChapterResource;
+import ru.gowork.dao.ChapterDao;
 import ru.gowork.dao.UserDao;
 import ru.gowork.resource.StudentResource;
 import ru.gowork.resource.ParagraphResource;
@@ -7,6 +10,7 @@ import ru.gowork.resource.AuthResource;
 import ru.gowork.dao.StudentsDao;
 import ru.gowork.dao.ParagraphDao;
 import ru.gowork.mapper.StudentMapper;
+import ru.gowork.service.ChapterService;
 import ru.gowork.service.StudentsService;
 import ru.gowork.service.ParagraphService;
 import ru.gowork.service.AuthService;
@@ -37,7 +41,11 @@ import javax.sql.DataSource;
   UserDao.class,
   AuthResource.class,
   GwResourceConfig.class,
-  AuthService.class
+  AuthService.class,
+  ChapterDao.class,
+  ChapterResource.class,
+  ChapterService.class,
+  ChapterMapper.class
 })
 public class ProdConfig {
     @Bean

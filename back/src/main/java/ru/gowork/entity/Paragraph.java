@@ -1,13 +1,16 @@
 package ru.gowork.entity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
+import javax.persistence.Table;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -21,8 +24,12 @@ public class Paragraph {
 
     private String name;
 
-    @Column(name = "chapter_id")
+    @Column(name = "chapter_id", insertable = false, updatable = false)
     private Integer chapterId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chapter_id")
+    private Chapter chapter;
 
     @OneToMany(mappedBy = "paragraph", cascade = CascadeType.ALL)
     private List<Step> steps = new ArrayList<>();
@@ -49,5 +56,13 @@ public class Paragraph {
 
     public Integer getChapterId() {
         return chapterId;
+    }
+
+    public Chapter getChapter() {
+        return chapter;
+    }
+
+    public void setChapter(Chapter chapter) {
+        this.chapter = chapter;
     }
 }
