@@ -19,6 +19,9 @@ const MuiTheme = createMuiTheme({
     h5: {
         fontSize: '18px',
     },
+    h6: {
+        fontSize: '14px',
+    },
     form: {
         maxWidth: '340px',
     },
