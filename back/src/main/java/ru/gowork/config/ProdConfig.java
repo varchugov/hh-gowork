@@ -1,10 +1,13 @@
 package ru.gowork.config;
 
+import ru.gowork.dao.UserDao;
+import ru.gowork.resource.RegistrationResource;
 import ru.gowork.resource.StudentResource;
 import ru.gowork.resource.ParagraphResource;
 import ru.gowork.dao.StudentsDao;
 import ru.gowork.dao.ParagraphDao;
 import ru.gowork.mapper.StudentMapper;
+import ru.gowork.service.RegistrationService;
 import ru.gowork.service.StudentsService;
 import ru.gowork.service.ParagraphService;
 
@@ -21,6 +24,9 @@ import javax.sql.DataSource;
 
 @Configuration
 @Import({
+  RegistrationResource.class,
+  UserDao.class,
+  RegistrationService.class,
   StudentResource.class,
   StudentsDao.class,
   StudentMapper.class,
