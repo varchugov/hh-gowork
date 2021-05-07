@@ -11,3 +11,9 @@ INSERT INTO steps (id, paragraph_id, theory, question, correct_answers, answers_
 INSERT INTO steps (id, paragraph_id, theory, question, correct_answers, has_answer) VALUES (3, 1, 'Some text theory 3', '{"type": "free"}', '[]', FALSE);
 INSERT INTO steps (id, paragraph_id, theory, question, correct_answers, has_answer) VALUES (4, 1, 'Some text theory 4', '{"type": "free"}', '[]', FALSE);
 INSERT INTO steps (id, paragraph_id, theory, question, correct_answers, has_answer) VALUES (5, 2, 'Some text theory 5', '{"type": "free"}', '[]', FALSE);
+
+
+-- this is salted hash of 'test' password
+-- we should not manually set id here because the autoincrement sequence in DB does not gets updated in this case
+-- and subsequents inserts through API are failed
+INSERT INTO users (email, password_hash, current_user_step) VALUES ('test@example.com', '$2a$10$S2cQSOY4lWkYBNJX5hRQtulN7NygiUDDveBNTmhZcesqByDquUsrS', 1);

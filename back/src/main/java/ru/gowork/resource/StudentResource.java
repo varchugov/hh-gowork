@@ -13,6 +13,7 @@ import javax.ws.rs.WebApplicationException;
 
 import javax.inject.Singleton;
 
+import ru.gowork.config.AnonymousAllowed;
 import ru.gowork.service.StudentsService;
 import ru.gowork.dto.StudentDto;
 import ru.gowork.exceptions.StudentNotFoundException;
@@ -29,12 +30,14 @@ public class StudentResource {
 
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @POST
+    @AnonymousAllowed
     public StudentDto createStudent(@FormParam("username") String username) {
         return service.createStudent(username);
     }
 
     @Path("/{student_id}")
     @GET
+    @AnonymousAllowed
     public StudentDto getStudent(@PathParam("student_id") Integer id) throws WebApplicationException {
         try {
             return service.getStudentById(id);
