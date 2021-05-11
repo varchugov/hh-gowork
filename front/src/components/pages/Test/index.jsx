@@ -20,7 +20,7 @@ const Test = (props) => {
             ],
         },
         {
-            id: 0,
+            id: 1,
             name: 'Введение',
             steps: [
                 {
@@ -31,7 +31,7 @@ const Test = (props) => {
                     },
                 },
                 {
-                    id: 0,
+                    id: 1,
                     theory: 'string',
                     question: {
                         html: '<span>Какие цели на курс вы ставите?</span>',
@@ -40,7 +40,7 @@ const Test = (props) => {
             ],
         },
         {
-            id: 0,
+            id: 2,
             name: 'Введение',
             steps: [
                 {
@@ -54,6 +54,47 @@ const Test = (props) => {
         },
     ];
 
+    const answers = [
+        [
+            {
+                correctAnswers: [0],
+                answersExplanations: {
+                    explanation:
+                        'Тут мы выводим информацию об ответе и обобщаем почему именно так, если пользователь ответил не верно',
+                },
+                correct: true,
+            },
+        ],
+        [
+            {
+                correctAnswers: [0],
+                answersExplanations: {
+                    explanation:
+                        'Тут мы выводим информацию об ответе и обобщаем почему именно так, если пользователь ответил не верно',
+                },
+                correct: true,
+            },
+            {
+                correctAnswers: [0],
+                answersExplanations: {
+                    explanation:
+                        'Тут мы выводим информацию об ответе и обобщаем почему именно так, если пользователь ответил не верно',
+                },
+                correct: false,
+            },
+        ],
+        [
+            {
+                correctAnswers: [0],
+                answersExplanations: {
+                    explanation:
+                        'Тут мы выводим информацию об ответе и обобщаем почему именно так, если пользователь ответил не верно',
+                },
+                correct: true,
+            },
+        ],
+    ];
+
     return (
         <React.Fragment>
             <LinearProgress variant="determinate" value={progressPercentage} />
@@ -64,7 +105,12 @@ const Test = (props) => {
                             {`§ ${paragraph.name}`}
                         </Box>
                         {paragraph.steps.map((step, stepIndex) => (
-                            <TestStep key={step.id} data={step} number={`${paragraphIndex + 1}.${stepIndex + 1}`} />
+                            <TestStep
+                                key={step.id}
+                                data={step}
+                                number={`${paragraphIndex + 1}.${stepIndex + 1}`}
+                                answer={answers[paragraphIndex][stepIndex]}
+                            />
                         ))}
                     </React.Fragment>
                 ))}

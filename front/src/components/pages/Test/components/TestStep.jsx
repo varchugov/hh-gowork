@@ -13,6 +13,16 @@ const TestStep = (props) => (
                 <Box style={props.theme.h6}>Ваш ответ:</Box>
             </Box>
         </Paper>
+        <Box
+            fontSize={9}
+            borderLeft={1}
+            borderColor={props.answer.correct ? 'primary.main' : 'error.main'}
+            mt={3}
+            pl={3}
+            py={1}
+        >
+            {props.answer.answersExplanations.explanation}
+        </Box>
     </Box>
 );
 
