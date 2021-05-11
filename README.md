@@ -17,3 +17,7 @@ docker logs back_back_1
 ```console
 docker-compose down
 ```
+
+## http-requests from browser
+1. Add `/backend` prefix to location in every request.
+For example, instead `http://localhost:3000/login` use `http://localhost:3000/backend/login`.
