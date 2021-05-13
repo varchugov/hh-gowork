@@ -2,23 +2,28 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 
 import HomePageLink from 'src/components/shared/HomePageLink';
 
-const HeaderContent = styled.div`
+const HeaderContent = styled(Grid)`
     padding: 11px 0px;
 `;
 
-function HeaderComponent() {
+const Header = ({ CloseNav, TestNav }) => {
     return (
         <header>
             <Container maxWidth="xl">
-                <HeaderContent>
-                    <HomePageLink />
+                <HeaderContent container justify="space-between" alignItems="center">
+                    <HomePageLink item />
+                    <Grid item>
+                        {CloseNav && <CloseNav />}
+                        {TestNav && <TestNav />}
+                    </Grid>
                 </HeaderContent>
             </Container>
         </header>
     );
-}
+};
 
-export default HeaderComponent;
+export default Header;
