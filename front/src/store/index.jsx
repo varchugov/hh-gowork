@@ -12,6 +12,7 @@ class Store {
             signUpStep: observable,
             incrementSignUpStep: action,
             decrementSignUpStep: action,
+            setSignUpStepNumber: action,
         });
     }
 
@@ -29,6 +30,10 @@ class Store {
 
     incrementSignUpStep = () => {
         this.signUpStep += 1;
+    };
+
+    setSignUpStepNumber = (stepNumber) => {
+        this.signUpStep = stepNumber;
     };
 }
 
