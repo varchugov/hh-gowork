@@ -10,6 +10,7 @@ import TestStep from 'src/components/pages/Test/components/TestStep';
 
 import Header from 'src/components/shared/Header';
 import SharedNav from 'src/components/shared/Nav';
+import UserSettings from 'src/components/shared/UserSettings';
 
 const Test = (props) => {
     const progressPercentage = 25;
@@ -105,7 +106,7 @@ const Test = (props) => {
 
     return (
         <React.Fragment>
-            <Header TestNav={SharedNav} />
+            <Header UserSettings={UserSettings} TestNav={SharedNav} />
             <LinearProgress variant="determinate" value={progressPercentage} />
             <Container>
                 {paragraphs.map((paragraph, paragraphIndex) => (

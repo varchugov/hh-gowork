@@ -27,6 +27,11 @@ const Api = {
 
         return response;
     },
+    async logout() {
+        const response = await axios.put(`${ApiConstants.API_BASE_URL}/logout`);
+
+        return response;
+    },
 };
 
 export default Api;
