@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import Header from 'src/components/shared/Header';
+
 function Home() {
     return (
         <React.Fragment>
+            <Header />
             <h1>Homepage</h1>
             <ul>
                 <li>

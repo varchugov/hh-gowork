@@ -7,6 +7,7 @@ import { withTheme } from '@material-ui/core/styles';
 import store from 'src/store';
 
 import Form from 'src/components/shared/Form';
+import Header from 'src/components/shared/Header';
 import LinkButton from 'src/components/shared/LinkButton';
 import SubmitButton from 'src/components/shared/SubmitButton';
 
@@ -53,27 +54,30 @@ const Index = observer((props) => {
     ];
 
     return (
-        <Container>
-            <Box maxWidth={props.theme.form.maxWidth} mx="auto">
-                {tutorialSteps[store.signUpStep]}
-                <MobileStepper
-                    steps={tutorialSteps.length}
-                    position="static"
-                    activeStep={store.signUpStep}
-                    nextButton={<Box flex={1} />}
-                    backButton={
-                        <Box flex={1}>
-                            {store.signUpStep !== 0 && (
-                                <Button size="small" onClick={store.decrementSignUpStep}>
-                                    <KeyboardArrowLeft />
-                                    Назад
-                                </Button>
-                            )}
-                        </Box>
-                    }
-                />
-            </Box>
-        </Container>
+        <React.Fragment>
+            <Header />
+            <Container>
+                <Box maxWidth={props.theme.form.maxWidth} mx="auto">
+                    {tutorialSteps[store.signUpStep]}
+                    <MobileStepper
+                        steps={tutorialSteps.length}
+                        position="static"
+                        activeStep={store.signUpStep}
+                        nextButton={<Box flex={1} />}
+                        backButton={
+                            <Box flex={1}>
+                                {store.signUpStep !== 0 && (
+                                    <Button size="small" onClick={store.decrementSignUpStep}>
+                                        <KeyboardArrowLeft />
+                                        Назад
+                                    </Button>
+                                )}
+                            </Box>
+                        }
+                    />
+                </Box>
+            </Container>
+        </React.Fragment>
     );
 });
 

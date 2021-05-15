@@ -1,7 +1,12 @@
 import React from 'react';
-import { Container, Box, LinearProgress } from '@material-ui/core';
+
+import { Box, Container, LinearProgress } from '@material-ui/core';
 import { withTheme } from '@material-ui/core/styles';
+
 import TestStep from 'src/components/pages/Test/components/TestStep';
+
+import Header from 'src/components/shared/Header';
+import SharedNav from 'src/components/shared/Nav';
 
 const Test = (props) => {
     const progressPercentage = 25;
@@ -97,6 +102,7 @@ const Test = (props) => {
 
     return (
         <React.Fragment>
+            <Header TestNav={SharedNav} />
             <LinearProgress variant="determinate" value={progressPercentage} />
             <Container>
                 {paragraphs.map((paragraph, paragraphIndex) => (
