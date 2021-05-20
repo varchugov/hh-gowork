@@ -1,10 +1,10 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+import CourseHomepage from 'src/components/pages/CourseHomepage';
 import Home from 'src/components/pages/Home';
 import SignUp from 'src/components/pages/SignUp';
 import SignIn from 'src/components/pages/SignIn';
-import CourseHomepage from 'src/components/pages/CourseHomepage';
 import Test from 'src/components/pages/Test';
 
 function Router() {

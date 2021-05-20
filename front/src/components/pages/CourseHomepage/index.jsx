@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { Container, Grid } from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 
-import Golearn from 'src/components/shared/Golearn';
 import Header from 'src/components/shared/Header';
+import Golearn from 'src/components/shared/Golearn';
 import Menu from 'src/components/shared/Menu';
 
 function CourseHomepage() {

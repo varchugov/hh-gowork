@@ -1,6 +1,8 @@
 import React from 'react';
-import { Paper, Box } from '@material-ui/core';
-import { withTheme } from '@material-ui/core/styles';
+
+import Box from '@material-ui/core/Box';
+import Paper from '@material-ui/core/Paper';
+import withTheme from '@material-ui/core/styles/withTheme';
 
 const TestStep = (props) => (
     <Box mb={5}>

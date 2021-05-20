@@ -1,8 +1,15 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Select, MenuItem, Container, MobileStepper, Box, Button } from '@material-ui/core';
-import { KeyboardArrowLeft } from '@material-ui/icons';
-import { withTheme } from '@material-ui/core/styles';
+
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import MenuItem from '@material-ui/core/MenuItem';
+import MobileStepper from '@material-ui/core/MobileStepper';
+import Select from '@material-ui/core/Select';
+import withTheme from '@material-ui/core/styles/withTheme';
+
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 
 import store from 'src/store';
 

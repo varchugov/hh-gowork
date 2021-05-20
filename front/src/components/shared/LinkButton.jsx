@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Box, Button } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 
 const LinkButton = (props) => (
     <Box textAlign="center" py={2}>

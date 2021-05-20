@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Button, Box } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+
 import ArrowForward from '@material-ui/icons/ArrowForward';
 
 const SubmitButton = (props) => {
