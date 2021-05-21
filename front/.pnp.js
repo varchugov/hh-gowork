@@ -54,6 +54,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:a13328fc85cb1b6e73c466a0802731907d84b09c75ebad5fc43176c7c6416dd310b6b3942e66297afdc45c1fc855aef52d383b369bee842b3ba8bde7ec24bc8e#npm:3.4.0"],
             ["eslint-plugin-react", "virtual:a13328fc85cb1b6e73c466a0802731907d84b09c75ebad5fc43176c7c6416dd310b6b3942e66297afdc45c1fc855aef52d383b369bee842b3ba8bde7ec24bc8e#npm:7.23.2"],
             ["eslint-plugin-react-hooks", "virtual:a13328fc85cb1b6e73c466a0802731907d84b09c75ebad5fc43176c7c6416dd310b6b3942e66297afdc45c1fc855aef52d383b369bee842b3ba8bde7ec24bc8e#npm:4.2.0"],
+            ["js-cookie", "npm:2.2.1"],
             ["mobx", "npm:6.3.1"],
             ["mobx-react-lite", "virtual:a13328fc85cb1b6e73c466a0802731907d84b09c75ebad5fc43176c7c6416dd310b6b3942e66297afdc45c1fc855aef52d383b369bee842b3ba8bde7ec24bc8e#npm:3.2.0"],
             ["prettier", "npm:2.2.1"],
@@ -12049,6 +12050,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:a13328fc85cb1b6e73c466a0802731907d84b09c75ebad5fc43176c7c6416dd310b6b3942e66297afdc45c1fc855aef52d383b369bee842b3ba8bde7ec24bc8e#npm:3.4.0"],
             ["eslint-plugin-react", "virtual:a13328fc85cb1b6e73c466a0802731907d84b09c75ebad5fc43176c7c6416dd310b6b3942e66297afdc45c1fc855aef52d383b369bee842b3ba8bde7ec24bc8e#npm:7.23.2"],
             ["eslint-plugin-react-hooks", "virtual:a13328fc85cb1b6e73c466a0802731907d84b09c75ebad5fc43176c7c6416dd310b6b3942e66297afdc45c1fc855aef52d383b369bee842b3ba8bde7ec24bc8e#npm:4.2.0"],
+            ["js-cookie", "npm:2.2.1"],
             ["mobx", "npm:6.3.1"],
             ["mobx-react-lite", "virtual:a13328fc85cb1b6e73c466a0802731907d84b09c75ebad5fc43176c7c6416dd310b6b3942e66297afdc45c1fc855aef52d383b369bee842b3ba8bde7ec24bc8e#npm:3.2.0"],
             ["prettier", "npm:2.2.1"],
@@ -13920,6 +13922,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:15.3.1"],
             ["merge-stream", "npm:2.0.0"],
             ["supports-color", "npm:7.2.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["js-cookie", [
+        ["npm:2.2.1", {
+          "packageLocation": "./.yarn/cache/js-cookie-npm-2.2.1-e879cd2148-c110f78427.zip/node_modules/js-cookie/",
+          "packageDependencies": [
+            ["js-cookie", "npm:2.2.1"]
           ],
           "linkType": "HARD",
         }]

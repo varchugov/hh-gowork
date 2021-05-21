@@ -2,10 +2,12 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import CourseHomepage from 'src/components/pages/CourseHomepage';
+import PrivateRoute from 'src/components/shared/PrivateRoute';
 import Home from 'src/components/pages/Home';
 import SignUp from 'src/components/pages/SignUp';
 import SignIn from 'src/components/pages/SignIn';
 import Test from 'src/components/pages/Test';
+import Unauthorized from 'src/components/pages/Unauthorized';
 
 function Router() {
     return (
@@ -20,12 +22,15 @@ function Router() {
                 <Route path="/signin">
                     <SignIn />
                 </Route>
-                <Route path="/course">
+                <Route path="/unauthorized">
+                    <Unauthorized />
+                </Route>
+                <PrivateRoute path="/course">
                     <CourseHomepage />
-                </Route>
-                <Route path="/test">
+                </PrivateRoute>
+                <PrivateRoute path="/test">
                     <Test />
-                </Route>
+                </PrivateRoute>
             </Switch>
         </BrowserRouter>
     );
