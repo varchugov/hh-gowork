@@ -17,6 +17,7 @@ docker logs back_back_1
 ```console
 docker-compose down
 ```
+6. Go to `http://localhost:8082` in the browser to view the back API
 
 ## http-requests from browser
 1. Add `/backend` prefix to location in every request.
