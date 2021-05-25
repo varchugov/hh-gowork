@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import Box from '@material-ui/core/Box';
@@ -18,7 +18,117 @@ import Header from 'src/components/shared/Header';
 import LinkButton from 'src/components/shared/LinkButton';
 import SubmitButton from 'src/components/shared/SubmitButton';
 
+import Api from 'src/api';
+
+const MIN_PASSWORD_LENGTH = 8;
+
 const Index = observer((props) => {
+    const [email, setEmail] = useState('');
+    const [firstPassword, setFirstPassword] = useState('');
+    const [secondPassword, setSecondPassword] = useState('');
+    const [formErrorMessage, setFormErrorMessage] = useState(null);
+    const [firstPasswordErrorMessage, setFirstPasswordErrorMessage] = useState(null);
+    const [secondPasswordErrorMessage, setSecondPasswordErrorMessage] = useState(null);
+    const [requestIsInProcess, setRequestState] = useState(false);
+
+    const firstPasswordName = 'firstPassword';
+    const secondPasswordName = 'secondPassword';
+
+    const onPasswordInputChange = useCallback((value, name) => {
+        switch (name) {
+            case firstPasswordName:
+                setFirstPassword(value);
+                break;
+            case secondPasswordName:
+                setSecondPassword(value);
+                break;
+        }
+    }, []);
+
+    const getInputChecks = useCallback(() => {
+        const passwordLengthIsCorrect = firstPassword.length >= MIN_PASSWORD_LENGTH;
+        const passwordsMatch = firstPassword === secondPassword;
+        const inputIsCorrect = passwordLengthIsCorrect && passwordsMatch;
+
+        return { passwordLengthIsCorrect, passwordsMatch, inputIsCorrect };
+    }, [firstPassword, secondPassword]);
+
+    const onApiRequestFail = useCallback(() => {
+        store.setSignUpStepNumber(0);
+        setFormErrorMessage('проверьте интернет-подключение и попробуйте еще раз');
+    }, []);
+
+    const processLoginApiResponse = useCallback((response) => {
+        if (response && response.status >= 200 && response.status < 300) {
+            store.incrementSignUpStep();
+        }
+    }, []);
+
+    const processRegisterApiResponse = useCallback(
+        (response) => {
+            if (response.status >= 200 && response.status < 300) {
+                Api.login(email, firstPassword)
+                    .then((response) => {
+                        processLoginApiResponse(response);
+                    })
+                    .catch(onApiRequestFail);
+            }
+        },
+        [email, firstPassword, onApiRequestFail, processLoginApiResponse]
+    );
+
+    const cleanInputErrorMessages = useCallback(() => {
+        setFormErrorMessage(null);
+        setFirstPasswordErrorMessage(null);
+        setSecondPasswordErrorMessage(null);
+    }, []);
+
+    const onRegisterError = useCallback(
+        (error) => {
+            if (error.response && error.response.status) {
+                const status = error.response.status;
+
+                if (status >= 400 && status < 500) {
+                    store.setSignUpStepNumber(0);
+                    setFormErrorMessage('используйте другие данные для регистрации');
+                } else {
+                    store.setSignUpStepNumber(0);
+                    setFormErrorMessage('что-то пошло не так, попробуйте еще раз');
+                }
+            } else {
+                onApiRequestFail();
+            }
+        },
+        [onApiRequestFail]
+    );
+
+    const onRegisterSubmit = useCallback(
+        (event) => {
+            event.preventDefault();
+            cleanInputErrorMessages();
+            const inputChecks = getInputChecks();
+            if (inputChecks.inputIsCorrect) {
+                setRequestState(true);
+                Api.register(email, firstPassword)
+                    .then((response) => {
+                        processRegisterApiResponse(response);
+                    })
+                    .catch(onRegisterError)
+                    .finally(() => {
+                        setRequestState(false);
+                    });
+            } else {
+                if (!inputChecks.passwordLengthIsCorrect) {
+                    setFirstPasswordErrorMessage('длина пароля должна составлять не менее 8 символов');
+                }
+                if (!inputChecks.passwordsMatch) {
+                    setSecondPasswordErrorMessage('оба поля должны содержать одинаковый пароль');
+                }
+            }
+        },
+        [email, firstPassword, getInputChecks, cleanInputErrorMessages, processRegisterApiResponse, onRegisterError]
+    );
+
     const tutorialSteps = [
         <React.Fragment key="0">
             <Box style={props.theme.h1}>Регистрация</Box>
@@ -28,9 +138,12 @@ const Index = observer((props) => {
                 прямо сейчас
             </Box>
             <Form
-                textFields={[{ label: 'E-Mail', type: 'email' }]}
+                textFields={[{ label: 'E-Mail', type: 'email', value: email, errorMessage: null, name: 'email' }]}
                 submitButtonText="Регистрация"
+                submitButtonIsDisabled={false}
                 onSubmit={store.incrementSignUpStep}
+                onInputChange={setEmail}
+                errorMessage={formErrorMessage}
             />
             <LinkButton href="/signin" name="Войти" />
         </React.Fragment>,
@@ -38,11 +151,26 @@ const Index = observer((props) => {
             <Box style={props.theme.h4}>Придумайте пароль, чтобы зайти в тренажер</Box>
             <Form
                 textFields={[
-                    { label: 'Введите пароль', type: 'password' },
-                    { label: 'Повторите пароль', type: 'password' },
+                    {
+                        label: 'Введите пароль',
+                        type: 'password',
+                        value: firstPassword,
+                        errorMessage: firstPasswordErrorMessage,
+                        name: firstPasswordName,
+                    },
+                    {
+                        label: 'Повторите пароль',
+                        type: 'password',
+                        value: secondPassword,
+                        errorMessage: secondPasswordErrorMessage,
+                        name: secondPasswordName,
+                    },
                 ]}
                 submitButtonText="Далее"
-                onSubmit={store.incrementSignUpStep}
+                submitButtonIsDisabled={requestIsInProcess}
+                onSubmit={onRegisterSubmit}
+                onInputChange={onPasswordInputChange}
+                errorMessage={null}
             />
             <Box mt={3} style={props.theme.h5} textAlign="center">
                 Шаг 2 из 3-х
@@ -56,7 +184,7 @@ const Index = observer((props) => {
                     <MenuItem value="item-1">Профессия 2</MenuItem>
                 </Select>
             </Box>
-            <SubmitButton href="/" submitButtonText="Начать учиться" />
+            <SubmitButton href="/course" submitButtonText="Начать учиться" />
         </React.Fragment>,
     ];
 

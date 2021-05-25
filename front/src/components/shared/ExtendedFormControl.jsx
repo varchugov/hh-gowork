@@ -5,6 +5,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Box from '@material-ui/core/Box';
 
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -25,9 +26,9 @@ const ExtendedFormControl = (props) => {
 
     return (
         <FormControl variant="outlined" required={true} fullWidth={true}>
-            <InputLabel htmlFor={props.label}>{props.label}</InputLabel>
+            <InputLabel htmlFor={props.name}>{props.label}</InputLabel>
             <OutlinedInput
-                id={props.label}
+                id={props.name}
                 type={getInputType(props.type, passwordIsVisible)}
                 label={props.label}
                 endAdornment={
@@ -45,7 +46,11 @@ const ExtendedFormControl = (props) => {
                     ) : null
                 }
                 labelWidth={70}
+                error={props.errorMessage !== null}
+                value={props.value}
+                onChange={(event) => props.onChange(event.target.value, props.name)}
             />
+            {props.errorMessage && <Box color={'error.main'}>{props.errorMessage}</Box>}
         </FormControl>
     );
 };

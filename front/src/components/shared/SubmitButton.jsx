@@ -21,6 +21,7 @@ const SubmitButton = (props) => {
             color="default"
             endIcon={<ArrowForward />}
             size="large"
+            disabled={props.disabled}
         >
             <Box component="span" width="100%" fontWeight="fontWeightBold" textAlign="center">
                 {props.submitButtonText}
