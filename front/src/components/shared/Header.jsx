@@ -10,15 +10,18 @@ const HeaderContent = styled(Grid)`
     padding: 11px 0px;
 `;
 
-const Header = ({ CloseNav, TestNav }) => {
+const Header = ({ CloseNav, TestNav, UserSettings }) => {
     return (
         <header>
             <Container maxWidth="xl">
                 <HeaderContent container justify="space-between" alignItems="center">
                     <HomePageLink item />
                     <Grid item>
-                        {CloseNav && <CloseNav />}
-                        {TestNav && <TestNav />}
+                        <Grid container direction={'row'}>
+                            {CloseNav && <CloseNav />}
+                            {TestNav && <TestNav />}
+                            {UserSettings && <UserSettings />}
+                        </Grid>
                     </Grid>
                 </HeaderContent>
             </Container>

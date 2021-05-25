@@ -22,7 +22,7 @@ import Api from 'src/api';
 
 const MIN_PASSWORD_LENGTH = 8;
 
-const Index = observer((props) => {
+const SignUp = observer((props) => {
     const [email, setEmail] = useState('');
     const [firstPassword, setFirstPassword] = useState('');
     const [secondPassword, setSecondPassword] = useState('');
@@ -60,6 +60,9 @@ const Index = observer((props) => {
 
     const processLoginApiResponse = useCallback((response) => {
         if (response && response.status >= 200 && response.status < 300) {
+            // Убрать, когда на бэк добавят cookie без атрибута httpOnly
+            document.cookie = 'userName=userName; max-age=28800';
+            // /////////////////////////////////////////////////////////
             store.incrementSignUpStep();
         }
     }, []);
@@ -145,7 +148,7 @@ const Index = observer((props) => {
                 onInputChange={setEmail}
                 errorMessage={formErrorMessage}
             />
-            <LinkButton href="/signin" name="Войти" />
+            <LinkButton href="/signin" name="Войти" color={'primary'} />
         </React.Fragment>,
         <React.Fragment key="1">
             <Box style={props.theme.h4}>Придумайте пароль, чтобы зайти в тренажер</Box>
@@ -216,4 +219,4 @@ const Index = observer((props) => {
     );
 });
 
-export default withTheme(Index);
+export default withTheme(SignUp);

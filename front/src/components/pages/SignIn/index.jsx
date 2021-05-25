@@ -11,7 +11,7 @@ import LinkButton from 'src/components/shared/LinkButton';
 
 import Api from 'src/api';
 
-const Index = (props) => {
+const SignIn = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [formErrorMessage, setFormErrorMessage] = useState(null);
@@ -34,6 +34,9 @@ const Index = (props) => {
     const processLoginApiResponse = useCallback(
         (response) => {
             if (response.status >= 200 && response.status < 300) {
+                // Убрать, когда на бэк добавят cookie без атрибута httpOnly
+                document.cookie = 'userName=userName; max-age=28800';
+                // /////////////////////////////////////////////////////////
                 props.history.push('/course');
             }
         },
@@ -103,11 +106,11 @@ const Index = (props) => {
                         onInputChange={onInputChange}
                         errorMessage={formErrorMessage}
                     />
-                    <LinkButton href="/signup" name="Регистрация" />
+                    <LinkButton href="/signup" name="Регистрация" color={'primary'} />
                 </Box>
             </Container>
         </React.Fragment>
     );
 };
 
-export default withRouter(withTheme(Index));
+export default withRouter(withTheme(SignIn));
