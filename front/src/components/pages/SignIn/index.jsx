@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { Container, Box } from '@material-ui/core';
-import { withTheme } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
+import withTheme from '@material-ui/core/styles/withTheme';
 
 import Form from 'src/components/shared/Form';
 import Header from 'src/components/shared/Header';

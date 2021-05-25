@@ -1,19 +1,23 @@
-FROM node:15 AS builder
+FROM node:alpine AS builder
 
-WORKDIR /hh-gowork/
+WORKDIR /hh-gowork
+
+COPY .yarnrc.yml package.json yarn.lock ./
+COPY .yarn .yarn
+
+RUN yarn
 
 COPY . .
 
-RUN yarn install \
-    && yarn build
+RUN yarn build
 
-FROM nginx
+FROM nginx:alpine
 
-WORKDIR /usr/share/nginx/html/
+WORKDIR /usr/share/nginx/html
 
 RUN rm -Rf ./*
 
-COPY --from=builder /hh-gowork/build/ .
+COPY --from=builder /hh-gowork/build ./
 
 COPY nginx.conf /etc/nginx/templates/default.conf.template
 

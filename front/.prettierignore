@@ -1,14 +1,13 @@
 # See https://prettier.io/docs/en/ignore.html for more about ignoring files.
 
-# yarnpkg dependencies
+# Dependencies
 .yarn/*
 .pnp.*
 
-# npm dependencies
 node_modules
 
-# testing
+# Testing
 coverage
 
-# production
+# Production
 build

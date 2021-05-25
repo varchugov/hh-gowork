@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { List, ListItem, Typography } from '@material-ui/core';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Typography from '@material-ui/core/Typography';
 
 const TypographyListHeader = styled(Typography)`
     font-weight: 600;

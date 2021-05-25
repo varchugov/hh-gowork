@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Link, Box } from '@material-ui/core';
-import { withTheme } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
+import Link from '@material-ui/core/Link';
+import withTheme from '@material-ui/core/styles/withTheme';
 
 const HomePageBox = styled(Box)`
     margin: 7px 0;
