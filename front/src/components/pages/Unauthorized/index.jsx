@@ -1,5 +1,8 @@
 import React from 'react';
-import { Container, Box } from '@material-ui/core';
+
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
+
 import Header from 'src/components/shared/Header';
 import LinkButton from 'src/components/shared/LinkButton';
 

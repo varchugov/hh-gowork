@@ -2,8 +2,8 @@ import React from 'react';
 
 import Box from '@material-ui/core/Box';
 
-import SubmitButton from './SubmitButton';
-import ExtendedFormControl from './ExtendedFormControl';
+import SubmitButton from 'src/components/shared/SubmitButton';
+import ExtendedFormControl from 'src/components/shared/ExtendedFormControl';
 
 const Form = (props) => {
     return (

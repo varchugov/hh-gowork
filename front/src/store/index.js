@@ -2,6 +2,9 @@ import { makeObservable, observable, action } from 'mobx';
 
 class Store {
     sharedNav = false;
+    menuContent = [];
+    menuIsLoading = false;
+    menuIsLoaded = false;
     signUpStep = 0;
 
     constructor() {
@@ -9,6 +12,12 @@ class Store {
             sharedNav: observable,
             sharedNavOpen: action,
             sharedNavClose: action,
+            menuContent: observable,
+            menuSetContent: action,
+            menuIsLoading: observable,
+            menuSetIsLoading: action,
+            menuIsLoaded: observable,
+            menuSetIsLoaded: action,
             signUpStep: observable,
             incrementSignUpStep: action,
             decrementSignUpStep: action,
@@ -22,6 +31,18 @@ class Store {
 
     sharedNavClose = () => {
         this.sharedNav = false;
+    };
+
+    menuSetContent = (data) => {
+        this.menuContent = data;
+    };
+
+    menuSetIsLoading = (state) => {
+        this.menuIsLoading = state;
+    };
+
+    menuSetIsLoaded = () => {
+        this.menuIsLoaded = true;
     };
 
     decrementSignUpStep = () => {
