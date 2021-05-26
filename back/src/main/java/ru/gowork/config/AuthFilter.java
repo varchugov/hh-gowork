@@ -29,7 +29,7 @@ public class AuthFilter implements ContainerRequestFilter {
 
     private static Optional<String> getCookieValue(ContainerRequestContext requestContext) {
         return Optional.ofNullable(requestContext.getCookies())
-                .map(cookieMap -> cookieMap.get(AuthResource.COOKIE_NAME))
+                .map(cookieMap -> cookieMap.get(AuthResource.AUTH_COOKIE_NAME))
                 .map(Cookie::getValue);
     }
 

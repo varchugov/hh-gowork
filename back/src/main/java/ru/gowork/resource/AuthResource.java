@@ -30,13 +30,25 @@ public class AuthResource {
 
     private final AuthService authService;
 
-    public static final String COOKIE_NAME = "gw_session";
+    public static final String AUTH_COOKIE_NAME = "gw_session";
+    public static final String EMAIL_COOKIE_NAME = "gw_email";
+    public static final Integer COOKIE_MAX_AGE = 8 * 60 * 60;
 
     private String domain;
 
     public AuthResource(AuthService authService, FileSettings fileSettings) {
         this.authService = authService;
         this.domain = fileSettings.getString("auth-cookie.domain");
+    }
+
+    private Cookie buildCookie(String name, String value, String comment, Boolean httpOnly) {
+        Cookie resultCookie = new Cookie(name, value);
+        resultCookie.setComment(comment);
+        resultCookie.setDomain(domain);
+        resultCookie.setHttpOnly(httpOnly);
+        resultCookie.setMaxAge(COOKIE_MAX_AGE);
+        resultCookie.setSecure(true);
+        return resultCookie;
     }
 
     @Path("/register")
@@ -62,14 +74,13 @@ public class AuthResource {
         try {
             authService.login(email, password, sessionId);
 
-            // set cookie
-            Cookie authCookie = new Cookie(COOKIE_NAME, sessionId);
-            authCookie.setComment("gowork auth cookie");
-            authCookie.setDomain(domain);
-            authCookie.setHttpOnly(true);
-            authCookie.setMaxAge(8*60*60);
-            authCookie.setSecure(true);
+            // set auth cookie
+            Cookie authCookie = buildCookie(AUTH_COOKIE_NAME, sessionId, "gowork auth cookie", true);
             response.addCookie(authCookie);
+
+            // set email cookie
+            Cookie emailCookie = buildCookie(EMAIL_COOKIE_NAME, email, "gowork email cookie", false);
+            response.addCookie(emailCookie);
         } catch (LoginException e) {
             throw new WebApplicationException("invalid email/password", Status.FORBIDDEN);
         }
