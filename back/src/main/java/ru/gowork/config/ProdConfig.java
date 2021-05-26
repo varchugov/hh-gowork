@@ -23,6 +23,10 @@ import ru.hh.nab.datasource.DataSourceFactory;
 import ru.hh.nab.common.properties.FileSettings;
 import ru.hh.nab.hibernate.NabHibernateProdConfig;
 import ru.hh.nab.hibernate.MappingConfig;
+import ru.gowork.resource.AnswerResource;
+import ru.gowork.service.AnswerService;
+import ru.gowork.entity.UserAnswer;
+import ru.gowork.dao.UserAnswerDao;
 
 import javax.sql.DataSource;
 
@@ -45,7 +49,11 @@ import javax.sql.DataSource;
   ChapterDao.class,
   ChapterResource.class,
   ChapterService.class,
-  ChapterMapper.class
+  ChapterMapper.class,
+  AnswerResource.class,
+  AnswerService.class,
+  UserAnswer.class,
+  UserAnswerDao.class
 })
 public class ProdConfig {
     @Bean
