@@ -8142,6 +8142,7 @@ fsevents@^1.2.7:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-react: ^7.23.1
     eslint-plugin-react-hooks: ^4.2.0
+    js-cookie: ^2.2.1
     mobx: ^6.1.8
     mobx-react-lite: ^3.2.0
     prettier: 2.2.1
@@ -9799,6 +9800,13 @@ fsevents@^1.2.7:
   bin:
     jest: bin/jest.js
   checksum: 5db020fa88bc87ff4c8373be02605a3a42256b59151b30b22955dfa92142516150abf0e969fe8847bdf2bf0fbb338a1c93954b808fc8d7b0933f4bb15f1e0500
+  languageName: node
+  linkType: hard
+
+"js-cookie@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "js-cookie@npm:2.2.1"
+  checksum: c110f78427cb7715f67c69df0b3430f7cf9dafb5ddb13014df171d4fb61ccda0b1caf9767412cde63cab4bad697a5d4ce83b0c2e7ec650ec9929ed70750d20ae
   languageName: node
   linkType: hard
 

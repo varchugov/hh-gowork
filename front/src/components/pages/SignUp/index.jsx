@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
 import Box from '@material-ui/core/Box';
@@ -11,6 +12,8 @@ import withTheme from '@material-ui/core/styles/withTheme';
 
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 
+import Cookies from 'js-cookie';
+
 import store from 'src/store';
 
 import Form from 'src/components/shared/Form';
@@ -21,7 +24,6 @@ import SubmitButton from 'src/components/shared/SubmitButton';
 import Api from 'src/api';
 
 const MIN_PASSWORD_LENGTH = 8;
-
 const SignUp = observer((props) => {
     const [email, setEmail] = useState('');
     const [firstPassword, setFirstPassword] = useState('');
@@ -33,6 +35,12 @@ const SignUp = observer((props) => {
 
     const firstPasswordName = 'firstPassword';
     const secondPasswordName = 'secondPassword';
+
+    useEffect(() => {
+        if (Cookies.get('userName')) {
+            props.history.push('/course');
+        }
+    }, [props.history]);
 
     const onPasswordInputChange = useCallback((value, name) => {
         switch (name) {
@@ -219,4 +227,4 @@ const SignUp = observer((props) => {
     );
 });
 
-export default withTheme(SignUp);
+export default withRouter(withTheme(SignUp));

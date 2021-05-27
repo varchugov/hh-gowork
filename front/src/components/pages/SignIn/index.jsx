@@ -1,9 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import withTheme from '@material-ui/core/styles/withTheme';
+
+import Cookies from 'js-cookie';
 
 import Form from 'src/components/shared/Form';
 import Header from 'src/components/shared/Header';
@@ -16,9 +18,18 @@ const SignIn = (props) => {
     const [password, setPassword] = useState('');
     const [formErrorMessage, setFormErrorMessage] = useState(null);
     const [requestIsInProcess, setRequestState] = useState(false);
+    const [componentIsMounted, setComponentIsMounted] = useState(true);
 
     const emailName = 'email';
     const passwordName = 'password';
+
+    useEffect(() => {
+        if (Cookies.get('userName')) {
+            props.history.push('/course');
+        }
+
+        return () => setComponentIsMounted(false);
+    }, [props.history, componentIsMounted]);
 
     const onInputChange = useCallback((value, name) => {
         switch (name) {
@@ -68,10 +79,12 @@ const SignIn = (props) => {
                 })
                 .catch(onLoginError)
                 .finally(() => {
-                    setRequestState(false);
+                    if (componentIsMounted) {
+                        setRequestState(false);
+                    }
                 });
         },
-        [email, password, processLoginApiResponse, onLoginError]
+        [email, password, processLoginApiResponse, onLoginError, componentIsMounted]
     );
 
     return (

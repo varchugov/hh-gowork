@@ -14,6 +14,7 @@ import UserSettings from 'src/components/shared/UserSettings';
 
 const Test = (props) => {
     const progressPercentage = 25;
+
     const paragraphs = [
         {
             id: 0,
