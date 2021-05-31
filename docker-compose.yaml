@@ -22,7 +22,7 @@ services:
     image: maven:3.6.3-jdk-11
     restart: always
     working_dir: /mnt/app
-    command: mvn install exec:java
+    command: mvn install exec:java -Dmaven.test.skip=true
     volumes:
       - gowork-back-maven-repo:/root/.m2
       - ./back:/mnt/app:Z
