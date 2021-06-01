@@ -43,4 +43,13 @@ public class UserDao {
             .executeUpdate();
   }
 
+  @Transactional
+  public void setUserCurrentStep(String userEmail, Integer currentStepId) {
+    sessionFactory.getCurrentSession()
+            .createSQLQuery("UPDATE users SET current_user_step = :currentStepId WHERE email = :email")
+            .setParameter("email", userEmail)
+            .setParameter("currentStepId", currentStepId)
+            .executeUpdate();
+  }
+
 }

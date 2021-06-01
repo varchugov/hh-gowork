@@ -5,7 +5,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
 
 import ru.gowork.service.ParagraphService;
 import ru.gowork.dto.ParagraphDto;
@@ -29,12 +31,12 @@ public class ParagraphResource {
         return paragraphs;
     }
 
-    @Path("/chapters/{chapter_id}/paragraphs/{paragraph_id}/steps/{step_id}/next")
+    @Path("/steps/{step_id}/next")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
-    public ParagraphDto getNextStep(@PathParam("chapter_id") Integer chapterId,
-                                @PathParam("paragraph_id") Integer currentParagraphId,
-                                @PathParam("step_id") Integer currentStepId) {
-        return service.getNextStepInParagraph(currentParagraphId, currentStepId);
+    public ParagraphDto getNextStep(@PathParam("step_id") Integer currentStepId,
+                                @Context SecurityContext securityContext) {
+        String userEmail = securityContext.getUserPrincipal().getName();
+        return service.getNextStepInParagraph(currentStepId, userEmail);
     }
 }

@@ -7,6 +7,8 @@ public class ChapterDto {
     private Integer id;
     private String name;
     private List<ShortParagraphDto> paragraphs;
+    private Boolean isCurrent;
+    private Integer currentStep;
 
     public Integer getId() {
         return id;
@@ -27,6 +29,22 @@ public class ChapterDto {
     }
     public void setParagraphs(List<ShortParagraphDto> paragraphs) {
         this.paragraphs = paragraphs;
+    }
+
+    public Boolean getCurrent() {
+        return isCurrent;
+    }
+
+    public void setCurrent(Boolean current) {
+        isCurrent = current;
+    }
+
+    public Integer getCurrentStep() {
+        return currentStep;
+    }
+
+    public void setCurrentStep(Integer currentStep) {
+        this.currentStep = currentStep;
     }
 
     @Override

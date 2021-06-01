@@ -3,6 +3,7 @@ package ru.gowork.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import ru.gowork.entity.Step;
 import ru.gowork.entity.User;
 import ru.gowork.dao.UserDao;
 
@@ -26,6 +27,9 @@ public class AuthService {
         User user = new User();
         user.setEmail(email);
         user.setPasswordHash(passwordEncoder.encode(password));
+        Step firstStep = new Step();
+        firstStep.setId(1);
+        user.setCurrentStep(firstStep);
         userDao.registerUser(user);
     }
 
