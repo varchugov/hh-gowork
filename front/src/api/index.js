@@ -34,13 +34,35 @@ const Api = {
 
         return response;
     },
-    async content() {
+    async getContent() {
         store.menuSetIsLoading(true);
 
         const response = await axios.get(`${ApiConstants.API_BASE_URL}/content`);
 
         store.menuSetIsLoading(false);
         store.menuSetIsLoaded();
+
+        return response;
+    },
+    async getParagraphs(chapterId) {
+        const response = await axios.get(`${ApiConstants.API_BASE_URL}/chapters/${chapterId}/paragraphs`);
+
+        return response;
+    },
+    async getCurrentStep(chapterId, stepId) {
+        const response = await axios.get(
+            `${ApiConstants.API_BASE_URL}/chapters/${chapterId}/paragraphs?current_step=${stepId}`
+        );
+
+        return response;
+    },
+    async getNextStep(stepId) {
+        const response = await axios.get(`${ApiConstants.API_BASE_URL}/steps/${stepId}/next`);
+
+        return response;
+    },
+    async checkAnswer() {
+        const response = await axios.post(`${ApiConstants.API_BASE_URL}/answer/explanation`);
 
         return response;
     },

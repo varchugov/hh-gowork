@@ -19,7 +19,7 @@ const UserSettings = (props) => {
     const [requestIsInProcess, setRequestState] = useState(false);
     const [popperIsVisible, setPopperVisibility] = useState(false);
 
-    const userName = Cookies.get('userName');
+    const userName = Cookies.get('gw_email');
     const buttonRef = useRef();
     const anchorEl = buttonRef.current;
     const popperId = popperIsVisible ? 'simple-popper' : undefined;
@@ -34,9 +34,7 @@ const UserSettings = (props) => {
 
     const processLogoutApiResponse = (response) => {
         if (response && response.status >= 200 && response.status < 300) {
-            // Убрать, когда на бэк добавят cookie без атрибута httpOnly
-            document.cookie = 'userName=userName; max-age=0';
-            // /////////////////////////////////////////////////////////
+            Cookies.remove('gw_email');
             props.history.push('/signin');
         }
     };

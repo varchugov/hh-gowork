@@ -8,12 +8,14 @@ import CheckboxGroup from 'src/components/pages/Test/components/QuestionTypes/Ch
 
 const TestStep = (props) => {
     const [answerIsGiven, setAnswerIsGiven] = useState(false);
-    const [answerIsCorrect, setAnswerIsCorrect] = useState(false);
+    const [answerIsCorrect, setAnswerIsCorrect] = useState(true);
+    const [answerExplanation, setAnswerExplanation] = useState(null);
     const [disabled, setDisabled] = useState(false);
 
-    const onAnswer = (answerIsCorrect) => {
-        setAnswerIsCorrect(answerIsCorrect);
+    const onAnswer = (answerIsCorrect, explanation) => {
         setAnswerIsGiven(true);
+        setAnswerIsCorrect(answerIsCorrect);
+        setAnswerExplanation(explanation);
     };
 
     const getNextStep = () => {
@@ -23,30 +25,35 @@ const TestStep = (props) => {
 
     return (
         <Box mb={5}>
-            <Box mb={2} fontSize={11} dangerouslySetInnerHTML={{ __html: props.data.theory }}></Box>
+            <Box mb={2} style={props.theme.h6} dangerouslySetInnerHTML={{ __html: props.data.theory }}></Box>
             <Paper elevation={10}>
                 <Box px={3} py={1.5}>
                     <Box style={props.theme.h6} mb={2}>
                         Ваш ответ:
                     </Box>
-                    {props.data.question.type === 'checkbox' && <CheckboxGroup data={props.data} onAnswer={onAnswer} />}
+                    {props.data.question.type === 'checkbox' && (
+                        <CheckboxGroup data={props.data} onAnswer={onAnswer} disabled={props.disabled} />
+                    )}
                 </Box>
             </Paper>
             {answerIsGiven && (
                 <React.Fragment>
                     <Box
-                        fontSize={9}
-                        borderLeft={1}
+                        style={props.theme.h6}
+                        borderLeft={2}
                         borderColor={answerIsCorrect ? 'primary.main' : 'error.main'}
                         my={3}
                         pl={3}
                         py={1}
                     >
-                        {props.data.answer.explanation}
+                        <div>{answerIsCorrect ? 'Правильно!' : ''}</div>
+                        {answerExplanation}
                     </Box>
-                    <Button variant={'contained'} color={'primary'} onClick={getNextStep} disabled={disabled}>
-                        Далее
-                    </Button>
+                    {!disabled && (
+                        <Button variant={'contained'} color={'primary'} onClick={getNextStep}>
+                            Далее
+                        </Button>
+                    )}
                 </React.Fragment>
             )}
         </Box>
