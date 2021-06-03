@@ -1,42 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
+import styled from 'styled-components';
 
 import Grid from '@material-ui/core/Grid';
 
+import Api from 'src/api';
+import store from 'src/store';
+
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Paragraph from 'src/components/shared/Menu/components/Paragraph';
 
-const menu = {
-    paragraphs: [
-        {
-            id: '1',
-            header: '§ Введение',
-            links: ['Поиск работы'],
-        },
-        {
-            id: '2',
-            header: '§ Резюме',
-            links: ['Формат', 'О чем писать?', 'Достижения', 'О себе'],
-        },
-        {
-            id: '3',
-            header: '§ Сопроводительное',
-            links: ['Зачем?', 'Обязательные пункты', 'Практика'],
-        },
-        {
-            id: '4',
-            header: '§ Собеседование',
-            links: ['Подготовка', 'Частые вопросы', 'Практика'],
-        },
-    ],
-};
+const MenuLoadingWrapper = styled(Grid)`
+    padding: 115px 0;
+`;
 
-const Menu = (props) => (
-    <Grid {...props}>
-        {menu.paragraphs.map((item) => (
-            <Grid key={item.id}>
-                <Paragraph value={item} />
-            </Grid>
-        ))}
-    </Grid>
-);
+const Menu = observer((props) => {
+    useEffect(() => {
+        if (!store.menuIsLoaded && !store.menuIsLoading) {
+            Api.content()
+                .then((response) => store.menuSetContent(response.data))
+                .catch();
+        }
+    }, []);
+
+    return (
+        <Grid {...props}>
+            {store.menuIsLoaded ? (
+                store.menuContent.map((item) => (
+                    <Grid key={item.id}>
+                        <Paragraph value={item} />
+                    </Grid>
+                ))
+            ) : (
+                <MenuLoadingWrapper container justify="center">
+                    <CircularProgress />
+                </MenuLoadingWrapper>
+            )}
+        </Grid>
+    );
+});
 
 export default Menu;

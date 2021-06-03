@@ -6,7 +6,7 @@ import Link from '@material-ui/core/Link';
 import withTheme from '@material-ui/core/styles/withTheme';
 
 const HomePageBox = styled(Box)`
-    margin: 7px 0;
+    margin: 7px 24px 7px 0;
 `;
 
 const HomePageLink = (props) => (

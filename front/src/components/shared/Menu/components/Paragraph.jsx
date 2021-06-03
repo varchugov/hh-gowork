@@ -15,12 +15,12 @@ const ListItemLink = (props) => <ListItem button component="a" {...props} />;
 const Paragraph = (props) => (
     <List>
         <ListItemLink>
-            <TypographyListHeader variant="h5">{props.value.header}</TypographyListHeader>
+            <TypographyListHeader variant="h5">{props.value.name}</TypographyListHeader>
         </ListItemLink>
-        {props.value.links.map((item, i) => (
-            <ListItemLink key={item}>
+        {props.value.paragraphs.map((item, i) => (
+            <ListItemLink key={item.id}>
                 <Typography>
-                    {props.value.id}.{i + 1} {item}
+                    {props.value.id}.{i + 1} {item.name}
                 </Typography>
             </ListItemLink>
         ))}
