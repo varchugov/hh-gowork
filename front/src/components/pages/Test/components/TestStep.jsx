@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import withTheme from '@material-ui/core/styles/withTheme';
 import CheckboxGroup from 'src/components/pages/Test/components/QuestionTypes/CheckboxGroup';
+import RadioButtonGroup from 'src/components/pages/Test/components/QuestionTypes/RadioButtonGroup';
 
 const TestStep = (props) => {
     const [answerIsGiven, setAnswerIsGiven] = useState(false);
@@ -33,6 +34,9 @@ const TestStep = (props) => {
                     </Box>
                     {props.data.question.type === 'checkbox' && (
                         <CheckboxGroup data={props.data} onAnswer={onAnswer} disabled={props.disabled} />
+                    )}
+                    {props.data.question.type === 'radio' && (
+                        <RadioButtonGroup data={props.data} onAnswer={onAnswer} disabled={props.disabled} />
                     )}
                 </Box>
             </Paper>
