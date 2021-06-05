@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -10,27 +10,40 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Api from 'src/api';
 
 const RadioButtonGroup = (props) => {
-    const [radioGroupValue, setRadioGroupValue] = useState(null);
+    const [radioGroupValue, setRadioGroupValue] = useState(props.data.userAnswer);
     const [answerIsCorrect, setAnswerIsCorrect] = useState(true);
-    const [disabled, setDisabled] = useState(props.disabled);
+    const [disabled, setDisabled] = useState(props.answerIsComplete);
+
+    const onAnswerCheck = useCallback(
+        (data) => {
+            let newAnswerIsCorrectValue = true;
+            if (radioGroupValue !== data[0].id.toString()) {
+                newAnswerIsCorrectValue = false;
+                setAnswerIsCorrect(newAnswerIsCorrectValue);
+            }
+
+            props.onAnswer(newAnswerIsCorrectValue, data[0].explanation);
+        },
+        [props, radioGroupValue]
+    );
+
+    useEffect(() => {
+        if (props.answerIsComplete) {
+            onAnswerCheck(props.data.answersExplanations);
+        }
+    }, [props, onAnswerCheck]);
 
     const handleChange = useCallback((event) => {
         setRadioGroupValue(event.target.value);
     }, []);
 
-    const onAnswerCheck = (response) => {
-        let newAnswerIsCorrectValue = true;
-        if (radioGroupValue !== response.data[0].id.toString()) {
-            newAnswerIsCorrectValue = false;
-            setAnswerIsCorrect(newAnswerIsCorrectValue);
-        }
-
-        props.onAnswer(newAnswerIsCorrectValue, response.data[0].explanation);
-    };
-
     const onSubmit = () => {
         setDisabled(true);
-        Api.checkAnswer().then(onAnswerCheck).catch();
+        Api.getAnswerExplanation(radioGroupValue)
+            .then((response) => {
+                onAnswerCheck(response.data);
+            })
+            .catch();
     };
 
     return (

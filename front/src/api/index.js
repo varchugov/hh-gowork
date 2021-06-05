@@ -61,8 +61,10 @@ const Api = {
 
         return response;
     },
-    async checkAnswer() {
-        const response = await axios.post(`${ApiConstants.API_BASE_URL}/answer/explanation`);
+    async getAnswerExplanation(body) {
+        const response = await axios.post(`${ApiConstants.API_BASE_URL}/answer/explanation`, JSON.stringify(body), {
+            headers: { 'Content-Type': 'text/plain' },
+        });
 
         return response;
     },

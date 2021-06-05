@@ -6,12 +6,13 @@ import Button from '@material-ui/core/Button';
 import withTheme from '@material-ui/core/styles/withTheme';
 import CheckboxGroup from 'src/components/pages/Test/components/QuestionTypes/CheckboxGroup';
 import RadioButtonGroup from 'src/components/pages/Test/components/QuestionTypes/RadioButtonGroup';
+import FreeTextInput from 'src/components/pages/Test/components/QuestionTypes/FreeTextInput';
 
 const TestStep = (props) => {
     const [answerIsGiven, setAnswerIsGiven] = useState(false);
     const [answerIsCorrect, setAnswerIsCorrect] = useState(true);
     const [answerExplanation, setAnswerExplanation] = useState(null);
-    const [disabled, setDisabled] = useState(false);
+    const [disabled, setDisabled] = useState(props.answerIsComplete);
 
     const onAnswer = (answerIsCorrect, explanation) => {
         setAnswerIsGiven(true);
@@ -33,10 +34,25 @@ const TestStep = (props) => {
                         Ваш ответ:
                     </Box>
                     {props.data.question.type === 'checkbox' && (
-                        <CheckboxGroup data={props.data} onAnswer={onAnswer} disabled={props.disabled} />
+                        <CheckboxGroup
+                            data={props.data}
+                            onAnswer={onAnswer}
+                            answerIsComplete={props.answerIsComplete}
+                        />
                     )}
                     {props.data.question.type === 'radio' && (
-                        <RadioButtonGroup data={props.data} onAnswer={onAnswer} disabled={props.disabled} />
+                        <RadioButtonGroup
+                            data={props.data}
+                            onAnswer={onAnswer}
+                            answerIsComplete={props.answerIsComplete}
+                        />
+                    )}
+                    {props.data.question.type === 'free' && (
+                        <FreeTextInput
+                            data={props.data}
+                            onAnswer={onAnswer}
+                            answerIsComplete={props.answerIsComplete}
+                        />
                     )}
                 </Box>
             </Paper>
@@ -50,7 +66,6 @@ const TestStep = (props) => {
                         pl={3}
                         py={1}
                     >
-                        <div>{answerIsCorrect ? 'Правильно!' : ''}</div>
                         {answerExplanation}
                     </Box>
                     {!disabled && (

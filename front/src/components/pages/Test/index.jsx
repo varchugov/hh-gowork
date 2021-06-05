@@ -46,7 +46,7 @@ const Test = observer((props) => {
             .map((paragraph) => paragraph.steps)
             .reduce((acc, cur) => acc.concat(cur), []);
 
-        while (paragraphSteps[currentStepNumber].id !== currentStep) {
+        while (paragraphSteps[currentStepNumber] && paragraphSteps[currentStepNumber].id !== currentStep) {
             currentStepNumber += 1;
         }
 
@@ -96,7 +96,7 @@ const Test = observer((props) => {
                                 key={step.id}
                                 data={step}
                                 getNextStep={onGetNextStep}
-                                disabled={step.id !== currentStepId}
+                                answerIsComplete={step.id !== currentStepId}
                             />
                         ))}
                     </React.Fragment>

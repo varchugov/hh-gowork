@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -11,10 +11,12 @@ import Api from 'src/api';
 
 const CheckboxGroup = (props) => {
     const [checkboxCheckedStates, setCheckboxCheckedStates] = useState(
-        props.data.question.answers.reduce((answer, cur) => ({ ...answer, [cur.id]: false }), {})
+        props.answerIsComplete
+            ? props.data.userAnswer
+            : props.data.question.answers.reduce((answer, cur) => ({ ...answer, [cur.id]: false }), {})
     );
     const [checkboxValidatedStyles, setCheckboxValidatedStyles] = useState({});
-    const [disabled, setDisabled] = useState(props.disabled);
+    const [disabled, setDisabled] = useState(props.answerIsComplete);
 
     const handleChange = useCallback(
         (event) => {
@@ -23,31 +25,44 @@ const CheckboxGroup = (props) => {
         [checkboxCheckedStates]
     );
 
-    const onAnswerCheck = (response) => {
-        const answerResponse = response.data.reduce((answer, cur) => ({ ...answer, [cur.id]: cur.explanation }), {});
-        let answerIsCorrect = true;
+    const onAnswerCheck = useCallback(
+        (data) => {
+            const answerResponse = data.reduce((answer, cur) => ({ ...answer, [cur.id]: cur.explanation }), {});
+            let answerIsCorrect = true;
 
-        for (const checkboxId in checkboxCheckedStates) {
-            const checkboxIsInvalid =
-                (answerResponse.hasOwnProperty(checkboxId) && checkboxCheckedStates[checkboxId] === false) ||
-                (!answerResponse.hasOwnProperty(checkboxId) && checkboxCheckedStates[checkboxId] === true);
+            for (const checkboxId in checkboxCheckedStates) {
+                const checkboxIsInvalid =
+                    (answerResponse.hasOwnProperty(checkboxId) && checkboxCheckedStates[checkboxId] === false) ||
+                    (!answerResponse.hasOwnProperty(checkboxId) && checkboxCheckedStates[checkboxId] === true);
 
-            if (checkboxIsInvalid) {
-                answerIsCorrect = false;
+                if (checkboxIsInvalid) {
+                    answerIsCorrect = false;
+                }
+
+                setCheckboxValidatedStyles((checkboxValidatedStyles) => ({
+                    ...checkboxValidatedStyles,
+                    [checkboxId]: checkboxIsInvalid ? { color: 'red' } : {},
+                }));
             }
 
-            setCheckboxValidatedStyles((checkboxValidatedStyles) => ({
-                ...checkboxValidatedStyles,
-                [checkboxId]: checkboxIsInvalid ? { color: 'red' } : {},
-            }));
-        }
+            props.onAnswer(answerIsCorrect, data[0].explanation);
+        },
+        [props, checkboxCheckedStates]
+    );
 
-        props.onAnswer(answerIsCorrect, response.data[0].explanation);
-    };
+    useEffect(() => {
+        if (props.answerIsComplete) {
+            onAnswerCheck(props.data.answersExplanations);
+        }
+    }, [props, onAnswerCheck]);
 
     const onSubmit = () => {
         setDisabled(true);
-        Api.checkAnswer().then(onAnswerCheck).catch();
+        Api.getAnswerExplanation(checkboxCheckedStates)
+            .then((response) => {
+                onAnswerCheck(response.data);
+            })
+            .catch();
     };
 
     return (
