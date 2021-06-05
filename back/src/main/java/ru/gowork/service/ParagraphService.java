@@ -1,20 +1,22 @@
 package ru.gowork.service;
 
 import ru.gowork.dao.ParagraphDao;
+import ru.gowork.dao.UserDao;
+import ru.gowork.entity.User;
 import ru.gowork.mapper.ParagraphMapper;
 import ru.gowork.dto.ParagraphDto;
-import ru.gowork.dto.CheckAnswerDto;
 import ru.gowork.entity.Paragraph;
-import ru.gowork.entity.Step;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ParagraphService {
     private final ParagraphDao dao;
+    private final UserDao userDao;
 
-    public ParagraphService(ParagraphDao dao) {
+    public ParagraphService(ParagraphDao dao, UserDao userDao) {
         this.dao = dao;
+        this.userDao = userDao;
     }
 
     public List<ParagraphDto> getChapterParagraphs(Integer chapterId, Integer currentStepId) {
@@ -29,18 +31,13 @@ public class ParagraphService {
                 .collect(Collectors.toList());
     }
 
-    public ParagraphDto getNextStepInParagraph(Integer currentParagraphId, Integer currentStepId) {
-        Optional<Paragraph> paragraph = dao.getNextStep(currentParagraphId, currentStepId);
-        return paragraph.map(ParagraphMapper::fromEntity).orElse(null);
-    }
+    public ParagraphDto getNextStepInParagraph(Integer currentStepId, String userEmail) {
+        Optional<Paragraph> paragraph = dao.getNextStep(currentStepId);
+        User user = userDao.getUserByEmail(userEmail).orElseThrow(() -> new RuntimeException("user '" + userEmail + "' disappeared"));
 
-    public CheckAnswerDto checkStepAnswer(Integer stepId, List<Integer> userAnswers) {
-        Step step = dao.getStep(stepId);
-        Boolean isCorrect = step.getCorrectAnswers().equals(userAnswers);
-        CheckAnswerDto checkAnswerDto = new CheckAnswerDto();
-        checkAnswerDto.setCorrectAnswers(step.getCorrectAnswers());
-        checkAnswerDto.setAnswersExplanations(step.getAnswersExplanations());
-        checkAnswerDto.setCorrect(isCorrect);
-        return checkAnswerDto;
+        if (currentStepId.equals(user.getCurrentStep().getId()) && paragraph.isPresent()) {
+            userDao.setUserCurrentStep(userEmail, currentStepId + 1);
+        }
+        return paragraph.map(ParagraphMapper::fromEntity).orElse(null);
     }
 }

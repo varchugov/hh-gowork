@@ -73,4 +73,12 @@ public class Step {
     public Object getAnswersExplanations() {
         return answersExplanations;
     }
+
+    public Paragraph getParagraph() {
+        return paragraph;
+    }
+
+    public void setParagraph(Paragraph paragraph) {
+        this.paragraph = paragraph;
+    }
 }
