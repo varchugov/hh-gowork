@@ -9,6 +9,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
+import ru.gowork.dto.ExtendedParagraphDto;
 import ru.gowork.service.ParagraphService;
 import ru.gowork.dto.ParagraphDto;
 
@@ -26,8 +27,10 @@ public class ParagraphResource {
     @Path("/chapters/{chapter_id}/paragraphs")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
-    public List<ParagraphDto> getChapterParagraphs(@PathParam("chapter_id") Integer id, @QueryParam("current_step") Integer currentStepId) {
-        List<ParagraphDto> paragraphs = service.getChapterParagraphs(id, currentStepId);
+    public List<ExtendedParagraphDto> getChapterParagraphs(@PathParam("chapter_id") Integer id, @QueryParam("current_step") Integer currentStepId,
+                                                   @Context SecurityContext securityContext) {
+        String userEmail = securityContext.getUserPrincipal().getName();
+        List<ExtendedParagraphDto> paragraphs = service.getChapterParagraphs(id, currentStepId, userEmail);
         return paragraphs;
     }
 
