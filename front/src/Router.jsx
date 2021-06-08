@@ -7,6 +7,7 @@ import Home from 'src/components/pages/Home';
 import SignUp from 'src/components/pages/SignUp';
 import SignIn from 'src/components/pages/SignIn';
 import Test from 'src/components/pages/Test';
+import Interview from 'src/components/pages/Interview';
 import Unauthorized from 'src/components/pages/Unauthorized';
 
 function Router() {
@@ -30,6 +31,9 @@ function Router() {
                 </PrivateRoute>
                 <PrivateRoute path="/test">
                     <Test />
+                </PrivateRoute>
+                <PrivateRoute path="/interview">
+                    <Interview />
                 </PrivateRoute>
             </Switch>
         </BrowserRouter>
