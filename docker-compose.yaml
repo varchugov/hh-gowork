@@ -19,6 +19,8 @@ services:
       retries: 5
 
   back:
+    environment:
+      COOKIE_DOMAIN: "localhost"
     image: maven:3.6.3-jdk-11
     restart: always
     working_dir: /mnt/app
@@ -39,6 +41,7 @@ services:
       timeout: 5s
       retries: 5
       start_period: 180s  # first start may be long due to downloading dependencies
+
   back-swagger-ui:
     image: swaggerapi/swagger-ui
     volumes:
@@ -51,6 +54,7 @@ services:
       - back
     depends_on:
       - back
+
   back-swagger-ui-nginx:
     image: nginx
     command: ["nginx", "-g", "daemon off;"]
@@ -68,6 +72,7 @@ services:
       - back-swagger-ui
     depends_on:
       - back-swagger-ui
+
   front:
     environment:
       BACK_NAME: back

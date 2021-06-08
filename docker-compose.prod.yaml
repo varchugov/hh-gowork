@@ -1,0 +1,52 @@
+version: '3.4'
+
+services:
+  postgres:
+    image: postgres:13.2-alpine
+    restart: always
+    volumes:
+      - ./back/migrations/:/home/migrations
+      - /var/lib/hh-gowork/postgresql/data:/var/lib/postgresql/data
+      - /var/backups/hh-gowork/postgresql:/backups
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: hh
+      POSTGRES_DB: hh
+      POSTGRES_USER: hh
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hh"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  back:
+    environment:
+      COOKIE_DOMAIN: "app-gowork.ru"
+    build: ./back
+    restart: always
+    ports:
+      - "8080:8080"
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s  # first start may be long due to downloading dependencies
+
+  front:
+    environment:
+      BACK_NAME: back
+      BACK_PORT: 8080
+    build: ./front
+    restart: always
+    ports:
+      - "3000:80"
+    links:
+      - back
+    depends_on:
+      - back

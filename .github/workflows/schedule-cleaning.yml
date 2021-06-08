@@ -1,0 +1,21 @@
+name: GoWork schedule Server cleaning
+
+on:
+  schedule:
+    - cron: "0 2 12,26 * *"
+
+jobs:
+
+  schedule-cleaning:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Docker all cache cleaning
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          username: ${{ secrets.SSH_USER }}
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          script: docker system prune -af
