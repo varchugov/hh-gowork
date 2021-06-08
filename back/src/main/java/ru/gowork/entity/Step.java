@@ -1,16 +1,19 @@
 package ru.gowork.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.TypeDefs;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.Type;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import java.util.List;
 
@@ -46,6 +49,9 @@ public class Step {
     @JoinColumn(name = "paragraph_id")
     private Paragraph paragraph;
 
+    @OneToOne(mappedBy = "step", fetch = FetchType.LAZY)
+    private UserAnswer userAnswer;
+
     public Integer getId() {
         return id;
     }
@@ -80,5 +86,9 @@ public class Step {
 
     public void setParagraph(Paragraph paragraph) {
         this.paragraph = paragraph;
+    }
+
+    public UserAnswer getUserAnswer() {
+        return userAnswer;
     }
 }

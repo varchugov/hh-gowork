@@ -2,6 +2,7 @@ package ru.gowork.service;
 
 import ru.gowork.dao.ParagraphDao;
 import ru.gowork.dao.UserDao;
+import ru.gowork.dto.ExtendedParagraphDto;
 import ru.gowork.entity.User;
 import ru.gowork.mapper.ParagraphMapper;
 import ru.gowork.dto.ParagraphDto;
@@ -19,15 +20,17 @@ public class ParagraphService {
         this.userDao = userDao;
     }
 
-    public List<ParagraphDto> getChapterParagraphs(Integer chapterId, Integer currentStepId) {
+    public List<ExtendedParagraphDto> getChapterParagraphs(Integer chapterId, Integer currentStepId, String userEmail) {
+        User user = userDao.getUserByEmail(userEmail).orElseThrow(() -> new RuntimeException("user '" + userEmail + "' disappeared"));
+
         List<Paragraph> paragraphs;
         if (currentStepId != null) {
-            paragraphs = dao.getParagraphsToCurrentStep(chapterId, currentStepId);
+            paragraphs = dao.getParagraphsToCurrentStep(chapterId, currentStepId, user);
         } else {
-            paragraphs = dao.getParagraphs(chapterId);
+            paragraphs = dao.getParagraphs(chapterId, user);
         }
         return paragraphs.stream()
-                .map(paragraph -> ParagraphMapper.fromEntity(paragraph))
+                .map(ParagraphMapper::fromEntityExtended)
                 .collect(Collectors.toList());
     }
 

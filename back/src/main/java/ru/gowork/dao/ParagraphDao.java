@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import ru.gowork.entity.Paragraph;
 import ru.gowork.entity.Step;
+import ru.gowork.entity.User;
 
 public class ParagraphDao {
     private final SessionFactory sessionFactory;
@@ -16,21 +17,25 @@ public class ParagraphDao {
     }
 
     @Transactional
-    public List<Paragraph> getParagraphs(Integer chapterId) {
+    public List<Paragraph> getParagraphs(Integer chapterId, User user) {
         return sessionFactory.getCurrentSession()
                 .createQuery("SELECT DISTINCT paragraph FROM Paragraph paragraph JOIN FETCH " +
-                        "paragraph.steps WHERE paragraph.chapterId = :id")
+                        "paragraph.steps step LEFT JOIN FETCH step.userAnswer ans " +
+                        "WHERE paragraph.chapterId = :id AND (ans.user = :user OR ans.user IS NULL)", Paragraph.class)
                 .setParameter("id", chapterId)
+                .setParameter("user", user)
                 .list();
     }
 
     @Transactional
-    public List<Paragraph> getParagraphsToCurrentStep(Integer chapterId, Integer currentStepId) {
+    public List<Paragraph> getParagraphsToCurrentStep(Integer chapterId, Integer currentStepId, User user) {
         return sessionFactory.getCurrentSession()
                 .createQuery("SELECT DISTINCT paragraph FROM Paragraph paragraph JOIN FETCH " +
-                        "paragraph.steps step WHERE paragraph.chapterId = :id AND step.id <= :stepId")
+                        "paragraph.steps step LEFT JOIN FETCH step.userAnswer ans WHERE paragraph.chapterId = :id " +
+                        "AND step.id <= :stepId AND (ans.user = :user OR ans.user IS NULL)", Paragraph.class)
                 .setParameter("id", chapterId)
                 .setParameter("stepId", currentStepId)
+                .setParameter("user", user)
                 .list();
     }
 
