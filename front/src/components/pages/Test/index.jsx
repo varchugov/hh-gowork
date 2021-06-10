@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { observer } from 'mobx-react-lite';
 
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
@@ -12,122 +13,97 @@ import Header from 'src/components/shared/Header';
 import SharedNav from 'src/components/shared/Nav';
 import UserSettings from 'src/components/shared/UserSettings';
 
-const Test = (props) => {
-    const progressPercentage = 25;
+import store from 'src/store';
 
-    const paragraphs = [
-        {
-            id: 0,
-            name: 'Введение',
-            steps: [
-                {
-                    id: 0,
-                    theory: 'string',
-                    question: {
-                        html: '<span>Какие цели на курс вы ставите?</span>',
-                    },
-                },
-            ],
-        },
-        {
-            id: 1,
-            name: 'Введение',
-            steps: [
-                {
-                    id: 0,
-                    theory: 'string',
-                    question: {
-                        html: '<span>Какие цели на курс вы ставите?</span>',
-                    },
-                },
-                {
-                    id: 1,
-                    theory: 'string',
-                    question: {
-                        html: '<span>Какие цели на курс вы ставите?</span>',
-                    },
-                },
-            ],
-        },
-        {
-            id: 2,
-            name: 'Введение',
-            steps: [
-                {
-                    id: 0,
-                    theory: 'string',
-                    question: {
-                        html: '<span>Какие цели на курс вы ставите?</span>',
-                    },
-                },
-            ],
-        },
-    ];
+import Api from 'src/api';
 
-    const answers = [
-        [
-            {
-                correctAnswers: [0],
-                answersExplanations: {
-                    explanation:
-                        'Тут мы выводим информацию об ответе и обобщаем почему именно так, если пользователь ответил не верно',
-                },
-                correct: true,
-            },
-        ],
-        [
-            {
-                correctAnswers: [0],
-                answersExplanations: {
-                    explanation:
-                        'Тут мы выводим информацию об ответе и обобщаем почему именно так, если пользователь ответил не верно',
-                },
-                correct: true,
-            },
-            {
-                correctAnswers: [0],
-                answersExplanations: {
-                    explanation:
-                        'Тут мы выводим информацию об ответе и обобщаем почему именно так, если пользователь ответил не верно',
-                },
-                correct: false,
-            },
-        ],
-        [
-            {
-                correctAnswers: [0],
-                answersExplanations: {
-                    explanation:
-                        'Тут мы выводим информацию об ответе и обобщаем почему именно так, если пользователь ответил не верно',
-                },
-                correct: true,
-            },
-        ],
-    ];
+const getCurrentData = (chapters) => {
+    for (const chapter of chapters) {
+        if (chapter.current !== null && chapter.currentStep !== null) {
+            return [chapter.id, chapter.currentStep, chapter.name];
+        }
+    }
+
+    return null;
+};
+
+const Test = observer((props) => {
+    const [currentParagraph, setCurrentParagraph] = useState(null);
+    const [currentChapterId, setCurrentChapterId] = useState(null);
+    const [currentChapterName, setCurrentChapterName] = useState(null);
+    const [currentStepId, setCurrentStepId] = useState(null);
+    const [chapterProgressPercentage, setChapterProgressPercentage] = useState(0);
+
+    const onGetCurrentStepResponse = (response) => {
+        const data = response.data;
+
+        setCurrentParagraph(data[data.length - 1]);
+    };
+
+    const onGetParagraphs = (response, currentStep) => {
+        let currentStepNumber = 0;
+        const paragraphSteps = response.data
+            .map((paragraph) => paragraph.steps)
+            .reduce((acc, cur) => acc.concat(cur), []);
+
+        while (paragraphSteps[currentStepNumber].id !== currentStep) {
+            currentStepNumber += 1;
+        }
+
+        setChapterProgressPercentage((currentStepNumber / paragraphSteps.length) * 100);
+    };
+
+    const onGetContentResponse = useCallback((response) => {
+        store.menuSetContent(response.data);
+        const currentIds = getCurrentData(store.menuContent);
+
+        setCurrentChapterId(currentIds[0]);
+        setCurrentStepId(currentIds[1]);
+        setCurrentChapterName(currentIds[2]);
+        Api.getParagraphs(currentIds[0])
+            .then((response) => onGetParagraphs(response, currentIds[1]))
+            .catch();
+        Api.getCurrentStep(currentIds[0], currentIds[1]).then(onGetCurrentStepResponse).catch();
+    }, []);
+
+    const getContent = useCallback(() => {
+        Api.getContent().then(onGetContentResponse).catch();
+    }, [onGetContentResponse]);
+
+    useEffect(() => {
+        getContent();
+    }, [getContent]);
+
+    const onGetNextStep = () => {
+        Api.getNextStep(currentStepId).then(getContent).catch();
+    };
 
     return (
         <React.Fragment>
             <Header UserSettings={UserSettings} TestNav={SharedNav} />
-            <LinearProgress variant="determinate" value={progressPercentage} />
+            <LinearProgress variant="determinate" value={chapterProgressPercentage} />
             <Container>
-                {paragraphs.map((paragraph, paragraphIndex) => (
-                    <React.Fragment key={paragraph.id}>
-                        <Box style={props.theme.h5} color={'#A1A1A1'} fontWeight="fontWeightBold" mt={5}>
-                            {`§ ${paragraph.name}`}
+                <Box style={props.theme.h5} color={'#A1A1A1'} fontWeight="fontWeightBold" mt={5}>
+                    {`§ ${currentChapterName}`}
+                </Box>
+                {currentParagraph && (
+                    <React.Fragment>
+                        <Box style={props.theme.h6} fontWeight="fontWeightBold" mt={2} mb={2}>
+                            {`${currentChapterId}.${currentParagraph.id} ${currentParagraph.name}`}
                         </Box>
-                        {paragraph.steps.map((step, stepIndex) => (
+                        {currentParagraph.steps.map((step) => (
                             <TestStep
                                 key={step.id}
                                 data={step}
-                                number={`${paragraphIndex + 1}.${stepIndex + 1}`}
-                                answer={answers[paragraphIndex][stepIndex]}
+                                getNextStep={onGetNextStep}
+                                disabled={step.id !== currentStepId}
                             />
                         ))}
                     </React.Fragment>
-                ))}
+                )}
             </Container>
         </React.Fragment>
     );
-};
+});
 
 export default withTheme(Test);

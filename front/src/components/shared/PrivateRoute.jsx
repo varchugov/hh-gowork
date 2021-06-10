@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 const PrivateRoute = (props) => {
-    const userIsLoggedIn = Cookies.get('userName') !== undefined;
+    const userIsLoggedIn = Cookies.get('gw_email') !== undefined;
 
     return (
         <Route exact path={props.path}>

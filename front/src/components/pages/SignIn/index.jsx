@@ -24,7 +24,7 @@ const SignIn = (props) => {
     const passwordName = 'password';
 
     useEffect(() => {
-        if (Cookies.get('userName')) {
+        if (Cookies.get('gw_email')) {
             props.history.push('/course');
         }
 
@@ -45,9 +45,6 @@ const SignIn = (props) => {
     const processLoginApiResponse = useCallback(
         (response) => {
             if (response.status >= 200 && response.status < 300) {
-                // Убрать, когда на бэк добавят cookie без атрибута httpOnly
-                document.cookie = 'userName=userName; max-age=28800';
-                // /////////////////////////////////////////////////////////
                 props.history.push('/course');
             }
         },

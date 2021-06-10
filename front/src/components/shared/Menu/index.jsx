@@ -17,7 +17,7 @@ const MenuLoadingWrapper = styled(Grid)`
 const Menu = observer((props) => {
     useEffect(() => {
         if (!store.menuIsLoaded && !store.menuIsLoading) {
-            Api.content()
+            Api.getContent()
                 .then((response) => store.menuSetContent(response.data))
                 .catch();
         }

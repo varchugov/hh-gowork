@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+
+import LinkButton from 'src/components/shared/LinkButton';
 
 const GolearnCard = styled(Card)`
     margin: 25px auto;
@@ -39,9 +40,7 @@ function Golearn() {
                 </Typography>
             </GolearnCardContent>
             <GolearnCardActions>
-                <Button size="large" variant="contained">
-                    Учиться
-                </Button>
+                <LinkButton href={'/test'} name={'Учиться'} color={'default'} />
             </GolearnCardActions>
         </GolearnCard>
     );
