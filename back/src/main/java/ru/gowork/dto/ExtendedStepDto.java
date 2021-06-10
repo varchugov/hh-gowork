@@ -1,5 +1,7 @@
 package ru.gowork.dto;
 
+import java.util.List;
+
 public class ExtendedStepDto {
     private Integer id;
 
@@ -8,6 +10,8 @@ public class ExtendedStepDto {
     private Object question;
 
     private Object userAnswer;
+
+    private List<Integer> correctAnswers;
 
     private Object answersExplanations;
 
@@ -41,6 +45,14 @@ public class ExtendedStepDto {
 
     public void setUserAnswer(Object userAnswer) {
         this.userAnswer = userAnswer;
+    }
+
+    public List<Integer> getCorrectAnswers() {
+        return correctAnswers;
+    }
+
+    public void setCorrectAnswers(List<Integer> correctAnswers) {
+        this.correctAnswers = correctAnswers;
     }
 
     public Object getAnswersExplanations() {

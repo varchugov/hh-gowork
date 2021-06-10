@@ -19,6 +19,7 @@ public class StepMapper {
         dto.setId(step.getId());
         dto.setTheory(step.getTheory());
         dto.setQuestion(step.getQuestion());
+        dto.setCorrectAnswers(step.getCorrectAnswers());
         dto.setAnswersExplanations(step.getAnswersExplanations());
         if (step.getUserAnswer() != null) {
             dto.setUserAnswer(step.getUserAnswer().getAnswer());
