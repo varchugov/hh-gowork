@@ -21,7 +21,6 @@ import ru.gowork.service.AuthService;
 import ru.gowork.exceptions.LoginException;
 import ru.gowork.config.AnonymousAllowed;
 
-import ru.hh.nab.common.properties.FileSettings;
 import java.util.UUID;
 
 @Path("/")
@@ -36,13 +35,14 @@ public class AuthResource {
 
     private String domain;
 
-    public AuthResource(AuthService authService, FileSettings fileSettings) {
+    public AuthResource(AuthService authService) {
         this.authService = authService;
-        this.domain = fileSettings.getString("auth-cookie.domain");
+        this.domain = System.getenv("COOKIE_DOMAIN");
     }
 
     private Cookie buildCookie(String name, String value, String comment, Boolean httpOnly) {
         Cookie resultCookie = new Cookie(name, value);
+        resultCookie.setPath("/");
         resultCookie.setComment(comment);
         resultCookie.setDomain(domain);
         resultCookie.setHttpOnly(httpOnly);
