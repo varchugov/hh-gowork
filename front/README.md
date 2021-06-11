@@ -1,7 +1,7 @@
 ## Настройка _NODE_PATH_ для ESlint и Prettier в vscode _(и не только)_
 
 Перейдите в директорию `hh-gowork/front`, поднимите зависимости командой `yarn`
-(Если вы пользуетесь **IDE JetBrains**, то после этого шага все готово к работе*)
+(Если вы пользуетесь **IDE JetBrains**, то после этого шага все готово к работе\*)
 и установите [Editor SDKs](https://yarnpkg.com/getting-started/editor-sdks):
 
 1. Для **vscode** командой `yarn pnpify --sdk vscode`;
@@ -13,8 +13,10 @@
 Для решения этой _проблемы_ в директории `hh-gowork/front` репозитория есть папка **.vscode**
 
 Дальше есть два варианта развития событий:
+
 1. Если Вы открыли в редакторе кода в виде проекта корневую директорию репозитория и будете в ней работать,
    то необходимо в нее переместить папку **.vscode** и привести файл `.vscode/settings.json` к такому виду:
+
 ```
 {
   "search.exclude": {
@@ -30,15 +32,15 @@
 
 **НО** если Редактор автоматически не подцепит новый путь, его надо указать вручную:
 
-````
+```
 Press F1 -> ESLint: Select Node Path -> front/.yarn/sdk [Use NODE_PATH value defined vai settings]
-````
+```
 
 И перезапустите `ESLint Server`:
 
-````
+```
 Press F1 -> ESLint: Restart ESLint Server
-````
+```
 
 Для _других_ редакторов кода или IDE может потребоваться _особенная_ настройка,
 об этом можно узнать в официальной документации [Editor SDKs](https://yarnpkg.com/getting-started/editor-sdks)
