@@ -9,6 +9,7 @@ public class ChapterDto {
     private List<ShortParagraphDto> paragraphs;
     private Boolean isCurrent;
     private Integer currentStep;
+    private Integer currentParagraph;
 
     public Integer getId() {
         return id;
@@ -45,6 +46,14 @@ public class ChapterDto {
 
     public void setCurrentStep(Integer currentStep) {
         this.currentStep = currentStep;
+    }
+
+    public Integer getCurrentParagraph() {
+        return currentParagraph;
+    }
+
+    public void setCurrentParagraph(Integer currentParagraph) {
+        this.currentParagraph = currentParagraph;
     }
 
     @Override

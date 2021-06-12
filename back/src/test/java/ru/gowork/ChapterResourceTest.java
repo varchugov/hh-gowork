@@ -81,6 +81,7 @@ public class ChapterResourceTest extends BaseTest {
     chapterDto1.setParagraphs(List.of(shortParagraphDto1, shortParagraphDto2));
     chapterDto1.setCurrent(true);
     chapterDto1.setCurrentStep(1);
+    chapterDto1.setCurrentParagraph(1);
 
     ShortParagraphDto shortParagraphDto3 = new ShortParagraphDto();
     shortParagraphDto3.setId(3);
