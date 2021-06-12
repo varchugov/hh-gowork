@@ -14,22 +14,22 @@ const RadioButtonGroup = (props) => {
     const [answerIsCorrect, setAnswerIsCorrect] = useState(true);
     const [disabled, setDisabled] = useState(props.answerIsComplete);
 
-    const onAnswerCheck = useCallback(
-        (data) => {
-            let newAnswerIsCorrectValue = true;
-            if (radioGroupValue !== data[0].id.toString()) {
-                newAnswerIsCorrectValue = false;
-                setAnswerIsCorrect(newAnswerIsCorrectValue);
-            }
+    const onAnswerCheck = useCallback(() => {
+        let newAnswerIsCorrectValue = true;
+        if (!props.data.correctAnswers.includes(Number(radioGroupValue))) {
+            newAnswerIsCorrectValue = false;
+            setAnswerIsCorrect(newAnswerIsCorrectValue);
+        }
 
-            props.onAnswer(newAnswerIsCorrectValue, data[0].explanation);
-        },
-        [props, radioGroupValue]
-    );
+        props.onAnswerIsGiven(
+            newAnswerIsCorrectValue,
+            props.data.answersExplanations[newAnswerIsCorrectValue ? 'correct' : 'wrong']
+        );
+    }, [props, radioGroupValue]);
 
     useEffect(() => {
         if (props.answerIsComplete) {
-            onAnswerCheck(props.data.answersExplanations);
+            onAnswerCheck();
         }
     }, [props, onAnswerCheck]);
 
@@ -40,8 +40,9 @@ const RadioButtonGroup = (props) => {
     const onSubmit = () => {
         setDisabled(true);
         Api.getAnswerExplanation(radioGroupValue)
-            .then((response) => {
-                onAnswerCheck(response.data);
+            .then(() => {
+                onAnswerCheck();
+                props.onAnswerSubmit();
             })
             .catch();
     };
@@ -73,7 +74,7 @@ const RadioButtonGroup = (props) => {
                             onClick={onSubmit}
                             disabled={radioGroupValue === null}
                         >
-                            Ответить
+                            {props.data.question.button || 'Ответить'}
                         </Button>
                     </Box>
                 )}

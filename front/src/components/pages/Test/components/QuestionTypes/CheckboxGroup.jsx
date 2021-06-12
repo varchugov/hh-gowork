@@ -25,42 +25,41 @@ const CheckboxGroup = (props) => {
         [checkboxCheckedStates]
     );
 
-    const onAnswerCheck = useCallback(
-        (data) => {
-            const answerResponse = data.reduce((answer, cur) => ({ ...answer, [cur.id]: cur.explanation }), {});
-            let answerIsCorrect = true;
+    const onAnswerCheck = useCallback(() => {
+        const correctAnswers = props.data.correctAnswers;
+        let answerIsCorrect = true;
 
-            for (const checkboxId in checkboxCheckedStates) {
-                const checkboxIsInvalid =
-                    (answerResponse.hasOwnProperty(checkboxId) && checkboxCheckedStates[checkboxId] === false) ||
-                    (!answerResponse.hasOwnProperty(checkboxId) && checkboxCheckedStates[checkboxId] === true);
+        for (const checkboxId in checkboxCheckedStates) {
+            const correctAnswersIncludesId = correctAnswers.includes(Number(checkboxId));
+            const checkboxIsChecked = checkboxCheckedStates[checkboxId] === true;
+            const checkboxIsInvalid =
+                (correctAnswersIncludesId && !checkboxIsChecked) || (!correctAnswersIncludesId && checkboxIsChecked);
 
-                if (checkboxIsInvalid) {
-                    answerIsCorrect = false;
-                }
-
-                setCheckboxValidatedStyles((checkboxValidatedStyles) => ({
-                    ...checkboxValidatedStyles,
-                    [checkboxId]: checkboxIsInvalid ? { color: 'red' } : {},
-                }));
+            if (checkboxIsInvalid) {
+                answerIsCorrect = false;
             }
 
-            props.onAnswer(answerIsCorrect, data[0].explanation);
-        },
-        [props, checkboxCheckedStates]
-    );
+            setCheckboxValidatedStyles((checkboxValidatedStyles) => ({
+                ...checkboxValidatedStyles,
+                [checkboxId]: checkboxIsInvalid ? { color: 'red' } : {},
+            }));
+        }
+
+        props.onAnswerIsGiven(answerIsCorrect, props.data.answersExplanations[answerIsCorrect ? 'correct' : 'wrong']);
+    }, [props, checkboxCheckedStates]);
 
     useEffect(() => {
         if (props.answerIsComplete) {
-            onAnswerCheck(props.data.answersExplanations);
+            onAnswerCheck();
         }
     }, [props, onAnswerCheck]);
 
     const onSubmit = () => {
         setDisabled(true);
         Api.getAnswerExplanation(checkboxCheckedStates)
-            .then((response) => {
-                onAnswerCheck(response.data);
+            .then(() => {
+                onAnswerCheck();
+                props.onAnswerSubmit();
             })
             .catch();
     };
@@ -87,7 +86,7 @@ const CheckboxGroup = (props) => {
                 {!disabled && (
                     <Box mt={2}>
                         <Button variant={'contained'} color={'primary'} onClick={onSubmit}>
-                            Ответить
+                            {props.data.question.button || 'Ответить'}
                         </Button>
                     </Box>
                 )}

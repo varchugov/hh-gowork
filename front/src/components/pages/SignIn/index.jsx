@@ -94,7 +94,7 @@ const SignIn = (props) => {
                         Введите данные, указанные при регистрации
                     </Box>
                     <Form
-                        textFields={[
+                        fields={[
                             {
                                 label: 'E-Mail',
                                 type: 'email',

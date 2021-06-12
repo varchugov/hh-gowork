@@ -8,7 +8,7 @@ import ExtendedFormControl from 'src/components/shared/ExtendedFormControl';
 const Form = (props) => {
     return (
         <form onSubmit={props.onSubmit}>
-            {props.textFields.map((textField) => (
+            {props.fields.map((textField) => (
                 <Box key={textField.name} mx={2} mt={3}>
                     <ExtendedFormControl
                         label={textField.label}

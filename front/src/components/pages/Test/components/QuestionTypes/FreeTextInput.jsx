@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -14,11 +14,18 @@ const RadioButtonGroup = (props) => {
         setTextAreaValue(event.target.value);
     }, []);
 
+    useEffect(() => {
+        if (props.answerIsComplete) {
+            props.onAnswerIsGiven(true, props.data.answersExplanations.correct);
+        }
+    }, [props]);
+
     const onSubmit = useCallback(() => {
         setDisabled(true);
         Api.getAnswerExplanation(textAreaValue)
             .then(() => {
-                props.onAnswer(true, 'Спасибо за ответ!');
+                props.onAnswerIsGiven(true, props.data.answersExplanations.correct);
+                props.onAnswerSubmit();
             })
             .catch();
     }, [props, textAreaValue]);
@@ -31,11 +38,12 @@ const RadioButtonGroup = (props) => {
                 style={{ fontSize: '14px', width: '100%' }}
                 onChange={handleChange}
                 value={textAreaValue}
+                disabled={disabled}
             />
             {!disabled && (
                 <Box mt={2}>
                     <Button variant={'contained'} color={'primary'} onClick={onSubmit} disabled={textAreaValue === ''}>
-                        Ответить
+                        {props.data.question.button || 'Ответить'}
                     </Button>
                 </Box>
             )}
