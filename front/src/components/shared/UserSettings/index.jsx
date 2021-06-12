@@ -14,6 +14,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import Cookies from 'js-cookie';
 
 import Api from 'src/api';
+import ApiConstants from 'src/api/ApiConstants';
 
 const UserSettings = (props) => {
     const [requestIsInProcess, setRequestState] = useState(false);
@@ -34,7 +35,7 @@ const UserSettings = (props) => {
 
     const processLogoutApiResponse = (response) => {
         if (response && response.status >= 200 && response.status < 300) {
-            Cookies.remove('gw_email');
+            Cookies.remove('gw_email', { domain: ApiConstants.API_COOKIE_DOMAIN });
             props.history.push('/signin');
         }
     };
