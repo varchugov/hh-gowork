@@ -22,6 +22,7 @@ public class ChapterMapper {
         if (chapter.getId().equals(currentStep.getParagraph().getChapterId())) {
             dto.setCurrent(true);
             dto.setCurrentStep(currentStep.getId());
+            dto.setCurrentParagraph(currentStep.getParagraph().getId());
         }
         return dto;
     }
