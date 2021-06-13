@@ -40,14 +40,19 @@ public class AuthResource {
         this.domain = System.getenv("COOKIE_DOMAIN");
     }
 
-    private Cookie buildCookie(String name, String value, String comment, Boolean httpOnly) {
+    protected static Cookie buildCookieDomainless(String name, String value, String comment, Boolean httpOnly) {
         Cookie resultCookie = new Cookie(name, value);
         resultCookie.setPath("/");
         resultCookie.setComment(comment);
-        resultCookie.setDomain(domain);
         resultCookie.setHttpOnly(httpOnly);
         resultCookie.setMaxAge(COOKIE_MAX_AGE);
         resultCookie.setSecure(true);
+        return resultCookie;
+    }
+
+    private Cookie buildCookie(String name, String value, String comment, Boolean httpOnly) {
+        Cookie resultCookie = AuthResource.buildCookieDomainless(name, value, comment, httpOnly);
+        resultCookie.setDomain(domain);
         return resultCookie;
     }
 

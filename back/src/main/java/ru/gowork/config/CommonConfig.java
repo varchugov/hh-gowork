@@ -16,6 +16,7 @@ import ru.gowork.resource.AuthResource;
 import ru.gowork.resource.ChapterResource;
 import ru.gowork.resource.ParagraphResource;
 import ru.gowork.resource.StudentResource;
+import ru.gowork.resource.HHAuthResource;
 import ru.gowork.service.AnswerService;
 import ru.gowork.service.AuthService;
 import ru.gowork.service.ChapterService;
@@ -50,6 +51,7 @@ import javax.sql.DataSource;
   AnswerService.class,
   UserAnswer.class,
   UserAnswerDao.class,
+  HHAuthResource.class,
   NabCommonConfig.class
 })
 public class CommonConfig {

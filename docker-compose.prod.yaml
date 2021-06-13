@@ -23,6 +23,9 @@ services:
   back:
     environment:
       COOKIE_DOMAIN: "app-gowork.ru"
+      HH_OAUTH_CALLBACK_URL: https://app-gowork.ru/oauthcallback
+      HH_OAUTH_CLIENT_ID: "${COMPOSE_HH_OAUTH_CLIENT_ID}"
+      HH_OAUTH_CLIENT_SECRET: "${COMPOSE_HH_OAUTH_CLIENT_SECRET}"
     build: ./back
     restart: always
     ports:

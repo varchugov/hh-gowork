@@ -37,6 +37,9 @@ public class User {
   @JoinColumn(name = "current_user_step")
   private Step currentStep;
 
+  @Column(name = "is_oauth")
+  private Boolean isOauth = false;
+
   public Integer getId() {
     return id;
   }
@@ -83,5 +86,13 @@ public class User {
 
   public void setCurrentStep(Step currentStep) {
     this.currentStep = currentStep;
+  }
+
+  public Boolean getOauth() {
+    return isOauth;
+  }
+
+  public void setOauth(Boolean oauth) {
+    isOauth = oauth;
   }
 }
