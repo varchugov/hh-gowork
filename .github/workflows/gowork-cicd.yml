@@ -1,6 +1,8 @@
 name: GoWork CI/CD
 
 on:
+  workflow_dispatch:
+
   push:
     branches: [ master ]
 
