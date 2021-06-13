@@ -52,4 +52,15 @@ public class UserDao {
             .executeUpdate();
   }
 
+  @Transactional
+  public void upsertOAuthUser(String userEmail, String sessionId) {
+    sessionFactory.getCurrentSession()
+            .createSQLQuery("INSERT INTO users (email, password_hash, current_user_step, session_token, is_oauth) " +
+                    "VALUES (:email, '', 1, :sessionId, TRUE) ON CONFLICT (email) DO UPDATE SET " +
+                    "password_hash = excluded.password_hash, session_token = excluded.session_token, is_oauth = TRUE")
+            .setParameter("email", userEmail)
+            .setParameter("sessionId", sessionId)
+            .executeUpdate();
+  }
+
 }

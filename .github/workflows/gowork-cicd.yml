@@ -36,12 +36,17 @@ jobs:
             HOME_DIR="/home/${{ secrets.SSH_USER }}"
             WORK_DIR="$HOME_DIR/app/${{ github.repository }}"
 
+            export COMPOSE_HH_OAUTH_CLIENT_ID="${{ secrets.OAUTH_CLIENT_ID }}"
+            export COMPOSE_HH_OAUTH_CLIENT_SECRET="${{ secrets.OAUTH_CLIENT_SECRET }}"
+
             if [[ ! -d "$WORK_DIR" ]]
             then
               git clone https://github.com/${{ github.repository }}.git $WORK_DIR
             fi
 
             cd $WORK_DIR
+
+            git reset --hard
 
             git checkout master
             git pull

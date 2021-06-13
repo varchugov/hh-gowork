@@ -21,6 +21,9 @@ services:
   back:
     environment:
       COOKIE_DOMAIN: "localhost"
+      HH_OAUTH_CALLBACK_URL: https://app-gowork.ru/oauthcallback
+      HH_OAUTH_CLIENT_ID: "${COMPOSE_HH_OAUTH_CLIENT_ID}"
+      HH_OAUTH_CLIENT_SECRET: "${COMPOSE_HH_OAUTH_CLIENT_SECRET}"
     image: maven:3.6.3-jdk-11
     restart: always
     working_dir: /mnt/app

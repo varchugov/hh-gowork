@@ -35,6 +35,7 @@ public class AuthService {
 
     public void login(String email, String password, String sessionId) throws LoginException {
         User user = userDao.getUserByEmail(email)
+                .filter(dbUser -> !dbUser.getOauth())
                 .filter(dbUser -> passwordEncoder.matches(password, dbUser.getPasswordHash()))
                 .orElseThrow(() -> new LoginException());
 
@@ -43,5 +44,9 @@ public class AuthService {
 
     public void logout(String userEmail) {
         userDao.setUserSession(userEmail, null);
+    }
+
+    public void hhLogin(String email, String sessionId) {
+        userDao.upsertOAuthUser(email, sessionId);
     }
 }
