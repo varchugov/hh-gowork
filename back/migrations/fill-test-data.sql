@@ -1,8 +1,3 @@
-INSERT INTO students (username) VALUES ('Artur');
-INSERT INTO students (username) VALUES ('BorisTheBlade');
-INSERT INTO students (username) VALUES ('AnotherStudent');
-
-
 INSERT INTO chapters (id, name) VALUES (1, 'Введение');
 INSERT INTO chapters (id, name) VALUES (2, 'Резюме');
 INSERT INTO chapters (id, name) VALUES (3, 'Сопроводительное письмо');
@@ -54,12 +49,15 @@ INSERT INTO steps (paragraph_id, theory, question, correct_answers, answers_expl
 Спрашивать у знакомых и друзей
 Опираться на свой опыт и описывать путь мышления
 и тд
-', '{"type": "empty", "button": "Хорошо", "answers": []}', '[]', '{"correct": "", "wrong": ""}', FALSE);
+
+что ты будешь использовать?', '{"type": "checkbox", "button": "", "answers": [{"id": 0, "answer": "Пользоваться интернетом"}, {"id": 1, "answer": "Спрашивать совета у знакомых"}, {"id": 2, "answer": "Вспоминать свой опыт"}, {"id": 3, "answer": "Использовать советы консультантов"}]}', '[0, 1, 2, 3]', '{"correct": "", "wrong": ""}', FALSE);
 
 INSERT INTO steps (paragraph_id, theory, question, correct_answers, answers_explanations, has_answer) VALUES (1, 'Четвертое.
 
 Главы тренажера открываются постепенно, только после прохождения предыдущей. Сделано это для того, чтобы твои знания были максимально структурированы и ты понимал процесс поиска работы по этапам.
-Ответить на вопросы можно только один раз, дальше ответ сохраняется и ты не сможешь его изменить, все как в реальной жизни.', '{"type": "empty", "button": "Дальше", "answers": []}', '[]', '{"correct": "", "wrong": ""}', FALSE);
+Ответить на вопросы можно только один раз, дальше ответ сохраняется и ты не сможешь его изменить, все как в реальной жизни. 
+
+Отдельно хочу отметить главу “тренировка в собеседовании” она доступна уже сейчас, там есть возможность испытать себя в сложных вопросах на интервью и <a href="/interview">посмотреть на себя со стороны</a>.', '{"type": "empty", "button": "дальше", "answers": []}', '[]', '{"correct": "", "wrong": ""}', FALSE);
 
 INSERT INTO steps (paragraph_id, theory, question, correct_answers, answers_explanations, has_answer) VALUES (1, 'Пятое.
 
@@ -67,15 +65,18 @@ INSERT INTO steps (paragraph_id, theory, question, correct_answers, answers_expl
 
 INSERT INTO steps (paragraph_id, theory, question, correct_answers, answers_explanations, has_answer) VALUES (1, 'Шестое.
 
-Все персонажи и истории вымышленные, но имеют реальные прототипы. Если узнаешь кого-то на собеседованиях или кого-то из коллег не удивляйся. Говорить им об этом или нет, твой выбор :-)', '{"type": "empty", "button": "Дальше", "answers": []}', '[]', '{"correct": "", "wrong": ""}', FALSE);
+В начале важно ставить себе цели на обучение, чего Вы хотите достичь благодаря тренажеру?', '{"type": "free", "button": "дальше"}', '[]', '{"correct": "", "wrong": ""}', FALSE);
 
 INSERT INTO steps (paragraph_id, theory, question, correct_answers, answers_explanations, has_answer) VALUES (1, 'Седьмое
 
 
-От себя и команды разработки хочу пожелать тебе интересного прохождения и успешного устройства на работу мечты!', '{"type": "empty", "button": "Дальше", "answers": []}', '[]', '{"correct": "", "wrong": ""}', FALSE);
+От себя и команды разработки хочу пожелать тебе интересного прохождения и успешного устройства на работу мечты!
 
 
--- here statrts paragraph 2  (8 steps)
+Начнем?', '{"type": "radiobutton", "button": "дальше", "answers": [{"id": 0, "answer": "Да!"}, {"id": 1, "answer": "Да, конечно!"}, {"id": 2, "answer": "В путь!"}]}', '[0, 1, 2]', '{"correct": "", "wrong": ""}', FALSE);
+
+
+-- here statrts paragraph 2  (7 steps)
 
 INSERT INTO steps (paragraph_id, theory, question, correct_answers, answers_explanations, has_answer) VALUES (2, 'Привет!
 Меня зовут Олег, я виртуальный советчик, я буду тебя сопровождать на пути поиска работы мечты! Я уже помог тысячам людей найти работу подходящую именно им!
@@ -84,9 +85,6 @@ INSERT INTO steps (paragraph_id, theory, question, correct_answers, answers_expl
 Давай познакомимся, как тебя зовут?', '{"type": "empty", "button": "Дальше", "answers": []}', '[]', '{"correct": "", "wrong": ""}', FALSE);
 
 INSERT INTO steps (paragraph_id, theory, question, correct_answers, answers_explanations, has_answer) VALUES (2, 'Лучше ФИО, чтобы я точно знал, с кем общаюсь и точно запомнил)', '{"type": "free", "button": "дальше", "answers": []}', '[]', '{"correct": "Приятно познакомиться!", "wrong": "Приятно познакомиться!"}', TRUE);
-
-INSERT INTO steps (paragraph_id, theory, question, correct_answers, answers_explanations, has_answer) VALUES (2, 'Расскажи немного о себе, чтобы я мог понять, как лучше тебе помочь.
-Расскажи почему ты ищешь работу?', '{"type": "free", "button": "дальше", "answers": []}', '[]', '{"correct": "", "wrong": ""}', FALSE);
 
 INSERT INTO steps (paragraph_id, theory, question, correct_answers, answers_explanations, has_answer) VALUES (2, 'Расскажи о своем опыте, где уже работал или учился?', '{"type": "free", "button": "дальше", "answers": []}', '[]', '{"correct": "", "wrong": ""}', FALSE);
 
@@ -322,11 +320,4 @@ INSERT INTO steps (paragraph_id, theory, question, correct_answers, answers_expl
  Оформление. Большое значение имеет использование графических эффектов. В рассматриваемом примере они проигнорированы – и напрасно. Лучше выделять полужирным шрифтом названия разделов. А подразделы «Обязанности» и «Достижения» в описании каждого места работы – курсивом. Главное требование к резюме – оно должно не только точно информировать о наиболее важных для работодателя умениях и качествах кандидата, но и подносить эту информацию в удобной форме. Несколько простых хитростей. Если подраздел и информация в нем идут одной строкой (например, «Дата рождения: дд.мм.гггг.») лучше отделить их друг от друга табулятором. При этом информация в следующих разделах должна начинаться на том же уровне. Помощники тут табулятор и пробел.', '{"type": "radiobutton", "button": "далее", "answers": [{"id": 0, "answer": "точно выбрал"}, {"id": 1, "answer": "есть незначительные допущения"}, {"id": 2, "answer": "совсем не обратил внимания, буду знать!"}]}', '[0, 1, 2]', '{"correct": "", "wrong": ""}', FALSE);
 
 INSERT INTO steps (paragraph_id, theory, question, correct_answers, answers_explanations, has_answer) VALUES (7, 'Мы посмотрели на правильный пример, давай дальше разберемся подробнее с этапами и как описывать опыт работы подробнее.', '{"type": "empty", "button": "дальше", "answers": []}', '[]', '{"correct": "", "wrong": ""}', FALSE);
-
-
-
--- this is salted hash of 'test' password
--- we should not manually set id here because the autoincrement sequence in DB does not gets updated in this case
--- and subsequents inserts through API are failed
-INSERT INTO users (email, password_hash, current_user_step) VALUES ('test@example.com', '$2a$10$S2cQSOY4lWkYBNJX5hRQtulN7NygiUDDveBNTmhZcesqByDquUsrS', 2);
 
