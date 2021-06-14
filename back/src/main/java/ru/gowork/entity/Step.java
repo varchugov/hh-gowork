@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.TypeDefs;
@@ -16,6 +16,7 @@ import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.Type;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "steps")
@@ -49,8 +50,8 @@ public class Step {
     @JoinColumn(name = "paragraph_id")
     private Paragraph paragraph;
 
-    @OneToOne(mappedBy = "step", fetch = FetchType.LAZY)
-    private UserAnswer userAnswer;
+    @OneToMany(mappedBy = "step", fetch = FetchType.LAZY)
+    private Set<UserAnswer> userAnswers;
 
     public Integer getId() {
         return id;
@@ -88,7 +89,7 @@ public class Step {
         this.paragraph = paragraph;
     }
 
-    public UserAnswer getUserAnswer() {
-        return userAnswer;
+    public Set<UserAnswer> getUserAnswers() {
+        return userAnswers;
     }
 }

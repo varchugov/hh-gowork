@@ -3,6 +3,7 @@ package ru.gowork.mapper;
 import ru.gowork.dto.ExtendedStepDto;
 import ru.gowork.entity.Step;
 import ru.gowork.dto.StepDto;
+import ru.gowork.entity.UserAnswer;
 
 public class StepMapper {
 
@@ -21,8 +22,8 @@ public class StepMapper {
         dto.setQuestion(step.getQuestion());
         dto.setCorrectAnswers(step.getCorrectAnswers());
         dto.setAnswersExplanations(step.getAnswersExplanations());
-        if (step.getUserAnswer() != null) {
-            dto.setUserAnswer(step.getUserAnswer().getAnswer());
+        if (step.getUserAnswers() != null && step.getUserAnswers().size() > 0) {
+            dto.setUserAnswer(step.getUserAnswers().toArray(new UserAnswer[0])[0].getAnswer());
         }
         return dto;
     }
