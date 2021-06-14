@@ -20,7 +20,7 @@ public class ParagraphDao {
     public List<Paragraph> getParagraphs(Integer chapterId, User user) {
         return sessionFactory.getCurrentSession()
                 .createQuery("SELECT DISTINCT paragraph FROM Paragraph paragraph JOIN FETCH " +
-                        "paragraph.steps step LEFT JOIN FETCH step.userAnswer ans " +
+                        "paragraph.steps step LEFT JOIN FETCH step.userAnswers ans " +
                         "WHERE paragraph.chapterId = :id AND (ans.user = :user OR ans.user IS NULL)", Paragraph.class)
                 .setParameter("id", chapterId)
                 .setParameter("user", user)
@@ -31,7 +31,7 @@ public class ParagraphDao {
     public List<Paragraph> getParagraphsToCurrentStep(Integer chapterId, Integer currentStepId, User user) {
         return sessionFactory.getCurrentSession()
                 .createQuery("SELECT DISTINCT paragraph FROM Paragraph paragraph JOIN FETCH " +
-                        "paragraph.steps step LEFT JOIN FETCH step.userAnswer ans WHERE paragraph.chapterId = :id " +
+                        "paragraph.steps step LEFT JOIN FETCH step.userAnswers ans WHERE paragraph.chapterId = :id " +
                         "AND step.id <= :stepId AND (ans.user = :user OR ans.user IS NULL)", Paragraph.class)
                 .setParameter("id", chapterId)
                 .setParameter("stepId", currentStepId)
