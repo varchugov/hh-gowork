@@ -106,6 +106,8 @@ public class HHAuthResource {
         // set email cookie
         Cookie emailCookie = buildCookie(AuthResource.EMAIL_COOKIE_NAME, hhUser.getEmail(), "gowork email cookie", false);
         response.addCookie(emailCookie);
+
+        response.sendRedirect("https://app-gowork.ru/course");
     }
 
 }
