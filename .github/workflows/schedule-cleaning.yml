@@ -1,10 +1,12 @@
 name: GoWork schedule Server cleaning
 
 on:
+  schedule:
+    - cron: "* * 12,26 * *"
+
   workflow_dispatch:
 
-  schedule:
-    - cron: "0 2 12,26 * *"
+concurrency: cd-thread
 
 jobs:
 
@@ -20,4 +22,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
-          script: docker system prune -af
+          script: |
+            docker system df --verbose
+
+            docker system prune --all --force

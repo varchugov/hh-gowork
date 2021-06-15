@@ -7,6 +7,8 @@ on:
         description: 'Migration filename to run'
         required: true
 
+concurrency: cd-thread
+
 jobs:
 
   apply-migration:
@@ -43,9 +45,13 @@ jobs:
 
             docker-compose exec -T postgres psql -U hh -f "/home/migrations/${{ github.event.inputs.filename }}"
 
+            git clean -n
+            git clean -f
             git reset --hard
+
             git checkout master
             git pull
+
             if [[ ! "${{ steps.extract_branch.outputs.branch }}" == "master" ]]
             then
               git branch -D "${{ steps.extract_branch.outputs.branch }}"
