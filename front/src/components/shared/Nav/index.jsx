@@ -9,6 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import store from 'src/store';
 
+import DonateButton from 'src/components/shared/DonateButton';
 import Header from 'src/components/shared/Header';
 import Menu from 'src/components/shared/Menu';
 
@@ -27,7 +28,7 @@ const Nav = observer(() => (
         >
             <Header CloseNav={CloseNav} />
             <Container>
-                <Menu />
+                <Menu DonateButton={DonateButton} />
             </Container>
         </SwipeableDrawer>
     </React.Fragment>

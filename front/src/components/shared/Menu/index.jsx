@@ -36,6 +36,7 @@ const Menu = observer((props) => {
                     <CircularProgress />
                 </MenuLoadingWrapper>
             )}
+            {props.DonateButton && <props.DonateButton />}
         </Grid>
     );
 });
