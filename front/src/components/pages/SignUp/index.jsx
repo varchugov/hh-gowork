@@ -19,6 +19,7 @@ import store from 'src/store';
 
 import Form from 'src/components/shared/Form';
 import Header from 'src/components/shared/Header';
+import HHLoginButton from 'src/components/shared/HHLoginButton';
 import LinkButton from 'src/components/shared/LinkButton';
 import SubmitButton from 'src/components/shared/SubmitButton';
 
@@ -165,6 +166,7 @@ const SignUp = observer((props) => {
                 onInputChange={setEmail}
                 errorMessage={formErrorMessage}
             />
+            <HHLoginButton />
             <LinkButton href="/signin" name="Войти" color={'primary'} />
         </React.Fragment>,
         <React.Fragment key="1">

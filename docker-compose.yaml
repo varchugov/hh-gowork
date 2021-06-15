@@ -21,7 +21,8 @@ services:
   back:
     environment:
       COOKIE_DOMAIN: "localhost"
-      HH_OAUTH_CALLBACK_URL: https://app-gowork.ru/oauthcallback
+      HH_OAUTH_CALLBACK_URL: https://app-gowork.ru/backend/oauthcallback
+      HH_OAUTH_REDIRECT_URL: https://app-gowork.ru/course
       HH_OAUTH_CLIENT_ID: "${COMPOSE_HH_OAUTH_CLIENT_ID}"
       HH_OAUTH_CLIENT_SECRET: "${COMPOSE_HH_OAUTH_CLIENT_SECRET}"
     image: maven:3.6.3-jdk-11
@@ -87,6 +88,7 @@ services:
       - back
     depends_on:
       - back
+
 volumes:
   gowork-back-maven-repo:
   gowork-back-swagger:
