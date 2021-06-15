@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { withRouter } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import withTheme from '@material-ui/core/styles/withTheme';
 
@@ -17,10 +19,12 @@ import store from 'src/store';
 
 import Api from 'src/api';
 
-const getCurrentData = (chapters) => {
-    for (const chapter of chapters) {
-        if (chapter.current !== null && chapter.currentStep !== null) {
-            return [chapter.id, chapter.currentStep, chapter.name];
+const getParagraphIndex = (paragraphs, currentStep) => {
+    for (const [paragraphIndex, paragraph] of paragraphs.entries()) {
+        for (const step of paragraph.steps) {
+            if (Number(step.id) === Number(currentStep)) {
+                return paragraphIndex + 1;
+            }
         }
     }
 
@@ -29,44 +33,93 @@ const getCurrentData = (chapters) => {
 
 const Test = observer((props) => {
     const [currentParagraph, setCurrentParagraph] = useState(null);
+    const [currentParagraphIndex, setCurrentParagraphIndex] = useState(null);
     const [currentChapterId, setCurrentChapterId] = useState(null);
     const [currentChapterName, setCurrentChapterName] = useState(null);
     const [currentStepId, setCurrentStepId] = useState(null);
     const [chapterProgressPercentage, setChapterProgressPercentage] = useState(0);
+    const [nextstepIsLoading, setNextstepIsLoading] = useState(false);
 
-    const onGetCurrentStepResponse = (response) => {
-        const data = response.data;
+    const loaderRef = useRef();
+    const searchParams = new URLSearchParams(props.location.search);
+    const chapterQueryId = searchParams.get('chapter');
+    const paragraphQueryId = searchParams.get('paragraph');
+    const queryParametersArePresent = chapterQueryId && paragraphQueryId;
 
-        setCurrentParagraph(data[data.length - 1]);
-    };
+    const getCurrentData = useCallback(
+        (chapters) => {
+            for (const chapter of chapters) {
+                if (queryParametersArePresent /* && chapter.id.toString() === chapterQueryId*/) {
+                    return {
+                        id: chapterQueryId,
+                        currentStep: chapter.currentStep,
+                        name: chapter.name,
+                    };
+                } else if (chapter.current !== null && chapter.currentStep !== null) {
+                    return {
+                        id: chapter.id,
+                        currentStep: chapter.currentStep,
+                        name: chapter.name,
+                    };
+                }
+            }
 
-    const onGetParagraphs = (response, currentStep) => {
-        let currentStepNumber = 0;
-        const paragraphSteps = response.data
-            .map((paragraph) => paragraph.steps)
-            .reduce((acc, cur) => acc.concat(cur), []);
+            return null;
+        },
+        [chapterQueryId, queryParametersArePresent]
+    );
 
-        while (paragraphSteps[currentStepNumber].id !== currentStep) {
-            currentStepNumber += 1;
-        }
+    const onGetCurrentStepResponse = useCallback(
+        (response) => {
+            const data = response.data;
 
-        setChapterProgressPercentage((currentStepNumber / paragraphSteps.length) * 100);
-    };
+            setCurrentParagraph(data[(paragraphQueryId || data.length) - 1]);
+        },
+        [paragraphQueryId]
+    );
 
-    const onGetContentResponse = useCallback((response) => {
-        store.menuSetContent(response.data);
-        const currentIds = getCurrentData(store.menuContent);
+    const onGetParagraphs = useCallback(
+        (response, currentStep) => {
+            let currentStepNumber = 0;
+            const paragraphSteps = response.data
+                .map((paragraph) => paragraph.steps)
+                .reduce((acc, cur) => acc.concat(cur), []);
 
-        setCurrentChapterId(currentIds[0]);
-        setCurrentStepId(currentIds[1]);
-        setCurrentChapterName(currentIds[2]);
-        Api.getParagraphs(currentIds[0])
-            .then((response) => onGetParagraphs(response, currentIds[1]))
-            .catch();
-        Api.getCurrentStep(currentIds[0], currentIds[1]).then(onGetCurrentStepResponse).catch();
-    }, []);
+            setCurrentParagraphIndex(paragraphQueryId || getParagraphIndex(response.data, currentStep));
+
+            while (paragraphSteps[currentStepNumber] && paragraphSteps[currentStepNumber].id !== currentStep) {
+                currentStepNumber += 1;
+            }
+
+            setChapterProgressPercentage((currentStepNumber / paragraphSteps.length) * 100);
+            setNextstepIsLoading(false);
+        },
+        [paragraphQueryId]
+    );
+
+    const onGetContentResponse = useCallback(
+        (response) => {
+            store.menuSetContent(response.data);
+            const currentIds = getCurrentData(store.menuContent);
+
+            setCurrentChapterId(currentIds.id);
+            setCurrentStepId(currentIds.currentStep);
+            setCurrentChapterName(currentIds.name);
+            Api.getParagraphs(currentIds.id, null)
+                .then((response) => onGetParagraphs(response, currentIds.currentStep))
+                .catch();
+            Api.getParagraphs(currentIds.id, currentIds.currentStep)
+                .then(onGetCurrentStepResponse)
+                .catch()
+                .finally(() => {
+                    setNextstepIsLoading(false);
+                });
+        },
+        [onGetCurrentStepResponse, getCurrentData, onGetParagraphs]
+    );
 
     const getContent = useCallback(() => {
+        setNextstepIsLoading(true);
         Api.getContent().then(onGetContentResponse).catch();
     }, [onGetContentResponse]);
 
@@ -74,7 +127,14 @@ const Test = observer((props) => {
         getContent();
     }, [getContent]);
 
+    useEffect(() => {
+        if (loaderRef.current && !queryParametersArePresent) {
+            loaderRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [currentParagraph, queryParametersArePresent]);
+
     const onGetNextStep = () => {
+        setNextstepIsLoading(true);
         Api.getNextStep(currentStepId).then(getContent).catch();
     };
 
@@ -83,27 +143,36 @@ const Test = observer((props) => {
             <Header UserSettings={UserSettings} TestNav={SharedNav} />
             <LinearProgress variant="determinate" value={chapterProgressPercentage} />
             <Container>
-                <Box style={props.theme.h5} color={'#A1A1A1'} fontWeight="fontWeightBold" mt={5}>
-                    {`§ ${currentChapterName}`}
-                </Box>
                 {currentParagraph && (
                     <React.Fragment>
-                        <Box style={props.theme.h6} fontWeight="fontWeightBold" mt={2} mb={2}>
-                            {`${currentChapterId}.${currentParagraph.id} ${currentParagraph.name}`}
-                        </Box>
+                        {currentChapterName && (
+                            <Box style={props.theme.h5} color={'#A1A1A1'} fontWeight="fontWeightBold" mt={4}>
+                                {`§ ${currentChapterName}`}
+                            </Box>
+                        )}
+                        {currentChapterId && currentParagraphIndex && (
+                            <Box style={props.theme.h6} fontWeight="fontWeightBold" mt={2} mb={2}>
+                                {`${currentChapterId}.${currentParagraphIndex} ${currentParagraph.name}`}
+                            </Box>
+                        )}
                         {currentParagraph.steps.map((step) => (
                             <TestStep
                                 key={step.id}
                                 data={step}
                                 getNextStep={onGetNextStep}
-                                disabled={step.id !== currentStepId}
+                                answerIsComplete={step.id !== currentStepId}
                             />
                         ))}
                     </React.Fragment>
+                )}
+                {nextstepIsLoading && (
+                    <Box display="flex" justifyContent="center" my={2} ref={loaderRef}>
+                        <CircularProgress />
+                    </Box>
                 )}
             </Container>
         </React.Fragment>
     );
 });
 
-export default withTheme(Test);
+export default withRouter(withTheme(Test));

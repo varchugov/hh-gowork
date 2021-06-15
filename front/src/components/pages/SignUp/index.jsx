@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Select from '@material-ui/core/Select';
 import withTheme from '@material-ui/core/styles/withTheme';
+import Link from '@material-ui/core/Link';
 
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 
@@ -28,13 +29,16 @@ const SignUp = observer((props) => {
     const [email, setEmail] = useState('');
     const [firstPassword, setFirstPassword] = useState('');
     const [secondPassword, setSecondPassword] = useState('');
+    const [checkbox, setCheckbox] = useState(false);
     const [formErrorMessage, setFormErrorMessage] = useState(null);
     const [firstPasswordErrorMessage, setFirstPasswordErrorMessage] = useState(null);
     const [secondPasswordErrorMessage, setSecondPasswordErrorMessage] = useState(null);
+    const [checkboxErrorMessage, setCheckboxErrorMessage] = useState(null);
     const [requestIsInProcess, setRequestState] = useState(false);
 
     const firstPasswordName = 'firstPassword';
     const secondPasswordName = 'secondPassword';
+    const checkboxName = 'checkbox';
 
     useEffect(() => {
         if (Cookies.get('gw_email')) {
@@ -50,16 +54,20 @@ const SignUp = observer((props) => {
             case secondPasswordName:
                 setSecondPassword(value);
                 break;
+            case checkboxName:
+                setCheckbox(value);
+                break;
         }
     }, []);
 
     const getInputChecks = useCallback(() => {
         const passwordLengthIsCorrect = firstPassword.length >= MIN_PASSWORD_LENGTH;
         const passwordsMatch = firstPassword === secondPassword;
-        const inputIsCorrect = passwordLengthIsCorrect && passwordsMatch;
+        const checkboxIsChecked = checkbox;
+        const inputIsCorrect = passwordLengthIsCorrect && passwordsMatch && checkboxIsChecked;
 
-        return { passwordLengthIsCorrect, passwordsMatch, inputIsCorrect };
-    }, [firstPassword, secondPassword]);
+        return { passwordLengthIsCorrect, passwordsMatch, inputIsCorrect, checkboxIsChecked };
+    }, [firstPassword, secondPassword, checkbox]);
 
     const onApiRequestFail = useCallback(() => {
         store.setSignUpStepNumber(0);
@@ -89,6 +97,7 @@ const SignUp = observer((props) => {
         setFormErrorMessage(null);
         setFirstPasswordErrorMessage(null);
         setSecondPasswordErrorMessage(null);
+        setCheckboxErrorMessage(null);
     }, []);
 
     const onRegisterError = useCallback(
@@ -132,6 +141,9 @@ const SignUp = observer((props) => {
                 if (!inputChecks.passwordsMatch) {
                     setSecondPasswordErrorMessage('оба поля должны содержать одинаковый пароль');
                 }
+                if (!inputChecks.checkboxIsChecked) {
+                    setCheckboxErrorMessage('необходимо Ваше согласие с политикой');
+                }
             }
         },
         [email, firstPassword, getInputChecks, cleanInputErrorMessages, processRegisterApiResponse, onRegisterError]
@@ -146,7 +158,7 @@ const SignUp = observer((props) => {
                 прямо сейчас
             </Box>
             <Form
-                textFields={[{ label: 'E-Mail', type: 'email', value: email, errorMessage: null, name: 'email' }]}
+                fields={[{ label: 'E-Mail', type: 'email', value: email, errorMessage: null, name: 'email' }]}
                 submitButtonText="Регистрация"
                 submitButtonIsDisabled={false}
                 onSubmit={store.incrementSignUpStep}
@@ -158,7 +170,7 @@ const SignUp = observer((props) => {
         <React.Fragment key="1">
             <Box style={props.theme.h4}>Придумайте пароль, чтобы зайти в тренажер</Box>
             <Form
-                textFields={[
+                fields={[
                     {
                         label: 'Введите пароль',
                         type: 'password',
@@ -172,6 +184,20 @@ const SignUp = observer((props) => {
                         value: secondPassword,
                         errorMessage: secondPasswordErrorMessage,
                         name: secondPasswordName,
+                    },
+                    {
+                        label: (
+                            <span>
+                                {'Я согласен с '}
+                                <Link href={'https://gowork.ru.com/policy'}>
+                                    {'политикой обработки персональных данных'}
+                                </Link>
+                            </span>
+                        ),
+                        type: 'checkbox',
+                        value: checkbox,
+                        errorMessage: checkboxErrorMessage,
+                        name: checkboxName,
                     },
                 ]}
                 submitButtonText="Далее"

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -11,10 +11,12 @@ import Api from 'src/api';
 
 const CheckboxGroup = (props) => {
     const [checkboxCheckedStates, setCheckboxCheckedStates] = useState(
-        props.data.question.answers.reduce((answer, cur) => ({ ...answer, [cur.id]: false }), {})
+        props.answerIsComplete
+            ? props.data.userAnswer
+            : props.data.question.answers.reduce((answer, cur) => ({ ...answer, [cur.id]: false }), {})
     );
     const [checkboxValidatedStyles, setCheckboxValidatedStyles] = useState({});
-    const [disabled, setDisabled] = useState(props.disabled);
+    const [disabled, setDisabled] = useState(props.answerIsComplete);
 
     const handleChange = useCallback(
         (event) => {
@@ -23,14 +25,15 @@ const CheckboxGroup = (props) => {
         [checkboxCheckedStates]
     );
 
-    const onAnswerCheck = (response) => {
-        const answerResponse = response.data.reduce((answer, cur) => ({ ...answer, [cur.id]: cur.explanation }), {});
+    const onAnswerCheck = useCallback(() => {
+        const correctAnswers = props.data.correctAnswers;
         let answerIsCorrect = true;
 
         for (const checkboxId in checkboxCheckedStates) {
+            const correctAnswersIncludesId = correctAnswers.includes(Number(checkboxId));
+            const checkboxIsChecked = checkboxCheckedStates[checkboxId] === true;
             const checkboxIsInvalid =
-                (answerResponse.hasOwnProperty(checkboxId) && checkboxCheckedStates[checkboxId] === false) ||
-                (!answerResponse.hasOwnProperty(checkboxId) && checkboxCheckedStates[checkboxId] === true);
+                (correctAnswersIncludesId && !checkboxIsChecked) || (!correctAnswersIncludesId && checkboxIsChecked);
 
             if (checkboxIsInvalid) {
                 answerIsCorrect = false;
@@ -42,12 +45,23 @@ const CheckboxGroup = (props) => {
             }));
         }
 
-        props.onAnswer(answerIsCorrect, response.data[0].explanation);
-    };
+        props.onAnswerIsGiven(answerIsCorrect, props.data.answersExplanations[answerIsCorrect ? 'correct' : 'wrong']);
+    }, [props, checkboxCheckedStates]);
+
+    useEffect(() => {
+        if (props.answerIsComplete) {
+            onAnswerCheck();
+        }
+    }, [props, onAnswerCheck]);
 
     const onSubmit = () => {
         setDisabled(true);
-        Api.checkAnswer().then(onAnswerCheck).catch();
+        Api.getAnswerExplanation(checkboxCheckedStates)
+            .then(() => {
+                onAnswerCheck();
+                props.onAnswerSubmit();
+            })
+            .catch();
     };
 
     return (
@@ -72,7 +86,7 @@ const CheckboxGroup = (props) => {
                 {!disabled && (
                     <Box mt={2}>
                         <Button variant={'contained'} color={'primary'} onClick={onSubmit}>
-                            Ответить
+                            {props.data.question.button || 'Ответить'}
                         </Button>
                     </Box>
                 )}

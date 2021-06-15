@@ -44,15 +44,9 @@ const Api = {
 
         return response;
     },
-    async getParagraphs(chapterId) {
-        const response = await axios.get(`${ApiConstants.API_BASE_URL}/chapters/${chapterId}/paragraphs`);
-
-        return response;
-    },
-    async getCurrentStep(chapterId, stepId) {
-        const response = await axios.get(
-            `${ApiConstants.API_BASE_URL}/chapters/${chapterId}/paragraphs?current_step=${stepId}`
-        );
+    async getParagraphs(chapterId, stepId) {
+        const queryString = stepId ? `?current_step=${stepId}` : '';
+        const response = await axios.get(`${ApiConstants.API_BASE_URL}/chapters/${chapterId}/paragraphs${queryString}`);
 
         return response;
     },
@@ -61,8 +55,10 @@ const Api = {
 
         return response;
     },
-    async checkAnswer() {
-        const response = await axios.post(`${ApiConstants.API_BASE_URL}/answer/explanation`);
+    async getAnswerExplanation(body) {
+        const response = await axios.post(`${ApiConstants.API_BASE_URL}/answer/explanation`, JSON.stringify(body), {
+            headers: { 'Content-Type': 'text/plain' },
+        });
 
         return response;
     },

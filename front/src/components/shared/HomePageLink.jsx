@@ -11,7 +11,7 @@ const HomePageBox = styled(Box)`
 
 const HomePageLink = (props) => (
     <HomePageBox style={props.theme.h3} fontWeight="fontWeightBold">
-        <Link href="/" color="textPrimary">
+        <Link href="/course" color="textPrimary">
             GoWork
         </Link>
     </HomePageBox>

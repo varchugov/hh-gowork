@@ -8,7 +8,7 @@ const PrivateRoute = (props) => {
 
     return (
         <Route exact path={props.path}>
-            {userIsLoggedIn ? props.children : <Redirect to={'/unauthorized'} />}
+            {userIsLoggedIn ? props.children : <Redirect to={'/signup'} />}
         </Route>
     );
 };
