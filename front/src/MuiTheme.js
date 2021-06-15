@@ -31,6 +31,19 @@ const MuiTheme = createMuiTheme({
     palette: {
         primary: green,
     },
+    paragraph: {
+        fontSize: '14px',
+        lineHeight: '30px',
+        marginTop: '15px',
+        marginBottom: '15px',
+    },
+    videoPlayer: {
+        display: 'block',
+        width: '500px',
+        maxWidth: '100%',
+        marginTop: '15px',
+        marginBottom: '15px',
+    },
 });
 
 export default MuiTheme;
