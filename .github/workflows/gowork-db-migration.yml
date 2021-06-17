@@ -45,8 +45,8 @@ jobs:
 
             docker-compose exec -T postgres psql -U hh -f "/home/migrations/${{ github.event.inputs.filename }}"
 
-            git clean -n
-            git clean -f
+            git clean -dn
+            git clean -df
             git reset --hard
 
             git checkout master

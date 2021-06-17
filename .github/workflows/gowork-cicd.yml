@@ -48,8 +48,8 @@ jobs:
 
             cd $WORK_DIR
 
-            git clean -n
-            git clean -f
+            git clean -dn
+            git clean -df
             git reset --hard
 
             git checkout master
