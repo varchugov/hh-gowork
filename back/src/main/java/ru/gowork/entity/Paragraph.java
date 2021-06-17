@@ -11,8 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "paragraphs")
@@ -31,7 +31,7 @@ public class Paragraph {
     @JoinColumn(name = "chapter_id")
     private Chapter chapter;
 
-    @OneToMany(mappedBy = "paragraph", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "paragraph", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Step> steps = new ArrayList<>();
 
     public List<Step> getSteps() {

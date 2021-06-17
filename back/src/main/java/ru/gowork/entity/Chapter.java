@@ -20,7 +20,7 @@ public class Chapter {
 
     private String name;
 
-    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Paragraph> paragraphs;
 
     public Integer getId() {

@@ -3,10 +3,11 @@ package ru.gowork.service;
 import ru.gowork.dao.ParagraphDao;
 import ru.gowork.dao.UserDao;
 import ru.gowork.dto.ExtendedParagraphDto;
-import ru.gowork.entity.User;
-import ru.gowork.mapper.ParagraphMapper;
 import ru.gowork.dto.ParagraphDto;
 import ru.gowork.entity.Paragraph;
+import ru.gowork.entity.User;
+import ru.gowork.mapper.ParagraphMapper;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,8 +31,8 @@ public class ParagraphService {
             paragraphs = dao.getParagraphs(chapterId, user);
         }
         return paragraphs.stream()
-                .map(ParagraphMapper::fromEntityExtended)
-                .collect(Collectors.toList());
+            .map(ParagraphMapper::fromEntityExtended)
+            .collect(Collectors.toList());
     }
 
     public ParagraphDto getNextStepInParagraph(Integer currentStepId, String userEmail) {
