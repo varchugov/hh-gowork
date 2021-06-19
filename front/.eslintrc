@@ -1,6 +1,6 @@
 {
     "root": true,
-    "parser": "babel-eslint",
+    "parser": "@babel/eslint-parser",
     // https://github.com/hhru/eslint-config-hh
     "extends": ["@hh.ru/eslint-config", "prettier", "plugin:react/recommended"],
     "plugins": ["prettier", "react"],
@@ -8,7 +8,6 @@
         "prettier/prettier": [
             "error",
             {
-                // TODO: протестировать правило
                 "endOfLine": "auto"
             }
         ],
@@ -19,6 +18,10 @@
         "no-console": "off"
     },
     "parserOptions": {
-        "ecmaVersion": 12
+        "babelOptions": {
+            "presets": ["@babel/preset-react"]
+        },
+        "ecmaVersion": 12,
+        "requireConfigFile": false
     }
 }
