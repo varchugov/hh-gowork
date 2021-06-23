@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class ChapterMapper {
 
-    public static ChapterDto fromEntity(Chapter chapter, Step currentStep) {
+    public static ChapterDto fromEntity(Chapter chapter, Step currentStep, Integer totalSteps) {
         ChapterDto dto = new ChapterDto();
         dto.setId(chapter.getId());
         dto.setName(chapter.getName());
@@ -23,6 +23,7 @@ public class ChapterMapper {
             dto.setCurrent(true);
             dto.setCurrentStep(currentStep.getId());
             dto.setCurrentParagraph(currentStep.getParagraph().getId());
+            dto.setTotalSteps(totalSteps);
         }
         return dto;
     }

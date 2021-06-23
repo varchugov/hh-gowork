@@ -10,6 +10,7 @@ public class ChapterDto {
     private Boolean isCurrent;
     private Integer currentStep;
     private Integer currentParagraph;
+    private Integer totalSteps;
 
     public Integer getId() {
         return id;
@@ -54,6 +55,14 @@ public class ChapterDto {
 
     public void setCurrentParagraph(Integer currentParagraph) {
         this.currentParagraph = currentParagraph;
+    }
+
+    public Integer getTotalSteps() {
+        return totalSteps;
+    }
+
+    public void setTotalSteps(Integer totalSteps) {
+        this.totalSteps = totalSteps;
     }
 
     @Override

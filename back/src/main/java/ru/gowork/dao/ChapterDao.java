@@ -20,4 +20,11 @@ public class ChapterDao {
                         "chapter.paragraphs paragraphs ORDER BY chapter.id")
                 .list();
     }
+
+    @Transactional
+    public Integer getTotalSteps() {
+        return sessionFactory.getCurrentSession()
+            .createQuery("SELECT count(*) from Step", Long.class)
+            .getSingleResult().intValue();
+    }
 }
