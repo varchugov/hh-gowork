@@ -24,10 +24,11 @@ public class ChapterService {
 
     public List<ChapterDto> getContent(String userEmail) {
         List<Chapter> chapters = dao.getContent();
+        Integer totalSteps = dao.getTotalSteps();
         User user = userDao.getUserByEmail(userEmail).orElseThrow(() -> new RuntimeException("user '" + userEmail + "' disappeared"));
         Step currentStep = user.getCurrentStep();
         return chapters.stream()
-                .map(chapter -> ChapterMapper.fromEntity(chapter, currentStep))
+                .map(chapter -> ChapterMapper.fromEntity(chapter, currentStep, totalSteps))
                 .collect(Collectors.toList());
     }
 }
