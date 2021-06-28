@@ -6,6 +6,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
+import withTheme from '@material-ui/core/styles/withTheme';
 
 import Api from 'src/api';
 
@@ -41,7 +42,9 @@ const CheckboxGroup = (props) => {
 
             setCheckboxValidatedStyles((checkboxValidatedStyles) => ({
                 ...checkboxValidatedStyles,
-                [checkboxId]: checkboxIsInvalid ? { color: 'red' } : {},
+                [checkboxId]: {
+                    color: checkboxIsInvalid ? props.theme.palette.error.main : props.theme.palette.primary.main,
+                },
             }));
         }
 
@@ -95,4 +98,4 @@ const CheckboxGroup = (props) => {
     );
 };
 
-export default CheckboxGroup;
+export default withTheme(CheckboxGroup);
