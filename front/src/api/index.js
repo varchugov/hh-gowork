@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import ApiConstants from 'src/api/ApiConstants';
 
 import store from 'src/store';
@@ -14,6 +15,17 @@ const getFormRequestOptions = (location, parameters) => {
         urlEncodedParameters,
         { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
     ];
+};
+
+const logoutUnauthenticatedUser = (error) => {
+    if (error.response && error.response.status === 401) {
+        Cookies.remove('gw_email', { domain: ApiConstants.API_COOKIE_DOMAIN });
+        window.location.href = '/signin';
+    }
+
+    return new Promise((resolve, reject) => {
+        reject(error);
+    });
 };
 
 const Api = {
@@ -37,28 +49,34 @@ const Api = {
     async getContent() {
         store.menuSetIsLoading(true);
 
-        const response = await axios.get(`${ApiConstants.API_BASE_URL}/content`);
+        const response = await axios.get(`${ApiConstants.API_BASE_URL}/content`).catch(logoutUnauthenticatedUser);
 
         store.menuSetIsLoading(false);
-        store.menuSetIsLoaded();
+        store.menuSetIsLoaded(true);
 
         return response;
     },
     async getParagraphs(chapterId, stepId) {
         const queryString = stepId ? `?current_step=${stepId}` : '';
-        const response = await axios.get(`${ApiConstants.API_BASE_URL}/chapters/${chapterId}/paragraphs${queryString}`);
+        const response = await axios
+            .get(`${ApiConstants.API_BASE_URL}/chapters/${chapterId}/paragraphs${queryString}`)
+            .catch(logoutUnauthenticatedUser);
 
         return response;
     },
     async getNextStep(stepId) {
-        const response = await axios.get(`${ApiConstants.API_BASE_URL}/steps/${stepId}/next`);
+        const response = await axios
+            .get(`${ApiConstants.API_BASE_URL}/steps/${stepId}/next`)
+            .catch(logoutUnauthenticatedUser);
 
         return response;
     },
     async getAnswerExplanation(body) {
-        const response = await axios.post(`${ApiConstants.API_BASE_URL}/answer/explanation`, JSON.stringify(body), {
-            headers: { 'Content-Type': 'text/plain' },
-        });
+        const response = await axios
+            .post(`${ApiConstants.API_BASE_URL}/answer/explanation`, JSON.stringify(body), {
+                headers: { 'Content-Type': 'text/plain' },
+            })
+            .catch(logoutUnauthenticatedUser);
 
         return response;
     },
