@@ -15,6 +15,7 @@ import Cookies from 'js-cookie';
 
 import Api from 'src/api';
 import ApiConstants from 'src/api/ApiConstants';
+import store from 'src/store';
 
 const UserSettings = (props) => {
     const [requestIsInProcess, setRequestState] = useState(false);
@@ -35,6 +36,9 @@ const UserSettings = (props) => {
 
     const processLogoutApiResponse = (response) => {
         if (response && response.status >= 200 && response.status < 300) {
+            store.menuSetContent([]);
+            store.menuSetIsLoading(false);
+            store.menuSetIsLoaded(false);
             Cookies.remove('gw_email', { domain: ApiConstants.API_COOKIE_DOMAIN });
             props.history.push('/signin');
         }
@@ -60,6 +64,7 @@ const UserSettings = (props) => {
                         anchorEl={anchorEl}
                         placement={'bottom-end'}
                         transition
+                        style={{ zIndex: 10000 }}
                     >
                         <Paper>
                             <Box display={'flex'} alignItems={'center'} flexDirection={'column'} p={2}>
