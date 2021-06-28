@@ -4,7 +4,6 @@ import { observer } from 'mobx-react-lite';
 
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import withTheme from '@material-ui/core/styles/withTheme';
@@ -19,18 +18,6 @@ import store from 'src/store';
 
 import Api from 'src/api';
 
-const getParagraphIndex = (paragraphs, currentStep) => {
-    for (const [paragraphIndex, paragraph] of paragraphs.entries()) {
-        for (const step of paragraph.steps) {
-            if (Number(step.id) === Number(currentStep)) {
-                return paragraphIndex + 1;
-            }
-        }
-    }
-
-    return null;
-};
-
 const Test = observer((props) => {
     const [currentParagraph, setCurrentParagraph] = useState(null);
     const [currentParagraphIndex, setCurrentParagraphIndex] = useState(null);
@@ -40,82 +27,64 @@ const Test = observer((props) => {
     const [chapterProgressPercentage, setChapterProgressPercentage] = useState(0);
     const [nextstepIsLoading, setNextstepIsLoading] = useState(false);
 
-    const loaderRef = useRef();
+    const bottomRef = useRef();
     const searchParams = new URLSearchParams(props.location.search);
     const chapterQueryId = searchParams.get('chapter');
     const paragraphQueryId = searchParams.get('paragraph');
     const queryParametersArePresent = chapterQueryId && paragraphQueryId;
 
-    const getCurrentData = useCallback(
-        (chapters) => {
-            for (const chapter of chapters) {
-                if (queryParametersArePresent /* && chapter.id.toString() === chapterQueryId*/) {
-                    return {
-                        id: chapterQueryId,
-                        currentStep: chapter.currentStep,
-                        name: chapter.name,
-                    };
-                } else if (chapter.current !== null && chapter.currentStep !== null) {
-                    return {
-                        id: chapter.id,
-                        currentStep: chapter.currentStep,
-                        name: chapter.name,
-                    };
-                }
+    const getCurrentData = useCallback((chapters) => {
+        for (const chapter of chapters) {
+            if (chapter.current !== null && chapter.currentStep !== null) {
+                return {
+                    id: chapter.id,
+                    currentStep: chapter.currentStep,
+                    name: chapter.name,
+                    totalSteps: chapter.totalSteps,
+                    currentParagraph: chapter.currentParagraph,
+                };
             }
+        }
 
-            return null;
-        },
-        [chapterQueryId, queryParametersArePresent]
-    );
+        return null;
+    }, []);
+
+    const scrollToBottom = useCallback(() => {
+        bottomRef.current.scrollIntoView({ behavior: 'smooth' });
+    }, []);
 
     const onGetCurrentStepResponse = useCallback(
         (response) => {
             const data = response.data;
 
             setCurrentParagraph(data[(paragraphQueryId || data.length) - 1]);
-        },
-        [paragraphQueryId]
-    );
 
-    const onGetParagraphs = useCallback(
-        (response, currentStep) => {
-            let currentStepNumber = 0;
-            const paragraphSteps = response.data
-                .map((paragraph) => paragraph.steps)
-                .reduce((acc, cur) => acc.concat(cur), []);
-
-            setCurrentParagraphIndex(paragraphQueryId || getParagraphIndex(response.data, currentStep));
-
-            while (paragraphSteps[currentStepNumber] && paragraphSteps[currentStepNumber].id !== currentStep) {
-                currentStepNumber += 1;
+            if (!queryParametersArePresent) {
+                scrollToBottom();
             }
-
-            setChapterProgressPercentage((currentStepNumber / paragraphSteps.length) * 100);
-            setNextstepIsLoading(false);
         },
-        [paragraphQueryId]
+        [queryParametersArePresent, paragraphQueryId, scrollToBottom]
     );
 
     const onGetContentResponse = useCallback(
         (response) => {
             store.menuSetContent(response.data);
             const currentIds = getCurrentData(store.menuContent);
+            const chapterId = chapterQueryId || currentIds.id;
 
-            setCurrentChapterId(currentIds.id);
+            setCurrentChapterId(chapterId);
             setCurrentStepId(currentIds.currentStep);
             setCurrentChapterName(currentIds.name);
-            Api.getParagraphs(currentIds.id, null)
-                .then((response) => onGetParagraphs(response, currentIds.currentStep))
-                .catch();
-            Api.getParagraphs(currentIds.id, currentIds.currentStep)
+            setCurrentParagraphIndex(paragraphQueryId || currentIds.currentParagraph);
+            setChapterProgressPercentage((currentIds.currentStep / currentIds.totalSteps) * 100);
+            Api.getParagraphs(chapterId, currentIds.currentStep)
                 .then(onGetCurrentStepResponse)
                 .catch()
                 .finally(() => {
                     setNextstepIsLoading(false);
                 });
         },
-        [onGetCurrentStepResponse, getCurrentData, onGetParagraphs]
+        [onGetCurrentStepResponse, getCurrentData, chapterQueryId, paragraphQueryId]
     );
 
     const getContent = useCallback(() => {
@@ -127,21 +96,15 @@ const Test = observer((props) => {
         getContent();
     }, [getContent]);
 
-    useEffect(() => {
-        if (loaderRef.current && !queryParametersArePresent) {
-            loaderRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-    }, [currentParagraph, queryParametersArePresent]);
-
-    const onGetNextStep = () => {
+    const onGetNextStep = useCallback(() => {
         setNextstepIsLoading(true);
+        scrollToBottom();
         Api.getNextStep(currentStepId).then(getContent).catch();
-    };
+    }, [currentStepId, getContent, scrollToBottom]);
 
     return (
         <React.Fragment>
-            <Header UserSettings={UserSettings} TestNav={SharedNav} />
-            <LinearProgress variant="determinate" value={chapterProgressPercentage} />
+            <Header UserSettings={UserSettings} TestNav={SharedNav} progressPercentage={chapterProgressPercentage} />
             <Container>
                 {currentParagraph && (
                     <React.Fragment>
@@ -166,11 +129,12 @@ const Test = observer((props) => {
                     </React.Fragment>
                 )}
                 {nextstepIsLoading && (
-                    <Box display="flex" justifyContent="center" my={2} ref={loaderRef}>
+                    <Box display="flex" justifyContent="center" my={2}>
                         <CircularProgress />
                     </Box>
                 )}
             </Container>
+            <div ref={bottomRef} />
         </React.Fragment>
     );
 });
