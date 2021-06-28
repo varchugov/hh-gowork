@@ -3,7 +3,6 @@ import { observer } from 'mobx-react-lite';
 
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button';
 import MobileStepper from '@material-ui/core/MobileStepper';
 
@@ -208,8 +207,7 @@ const Interview = observer((props) => {
 
     return (
         <React.Fragment>
-            <Header UserSettings={UserSettings} />
-            <LinearProgress variant="determinate" value={100} />
+            <Header UserSettings={UserSettings} progressPercentage={0} />
             <Container>
                 <Box style={props.theme.h5} color={'#A1A1A1'} fontWeight="fontWeightBold" my={3}>
                     {`§ Собеседование`}

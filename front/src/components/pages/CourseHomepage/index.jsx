@@ -11,7 +11,7 @@ import UserSettings from 'src/components/shared/UserSettings';
 function CourseHomepage() {
     return (
         <React.Fragment>
-            <Header UserSettings={UserSettings} />
+            <Header UserSettings={UserSettings} progressPercentage={0} />
             <Container>
                 <Grid container justify="space-around">
                     <Golearn />

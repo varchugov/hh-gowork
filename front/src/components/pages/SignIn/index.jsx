@@ -87,7 +87,7 @@ const SignIn = (props) => {
 
     return (
         <React.Fragment>
-            <Header />
+            <Header progressPercentage={0} />
             <Container>
                 <Box maxWidth={props.theme.form.maxWidth} mx="auto">
                     <Box style={props.theme.h1}>Вход в тренажер</Box>

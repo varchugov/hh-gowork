@@ -6,19 +6,18 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import withTheme from '@material-ui/core/styles/withTheme';
 
 import Api from 'src/api';
 
 const RadioButtonGroup = (props) => {
     const [radioGroupValue, setRadioGroupValue] = useState(props.data.userAnswer);
-    const [answerIsCorrect, setAnswerIsCorrect] = useState(true);
     const [disabled, setDisabled] = useState(props.answerIsComplete);
 
     const onAnswerCheck = useCallback(() => {
         let newAnswerIsCorrectValue = true;
         if (!props.data.correctAnswers.includes(Number(radioGroupValue))) {
             newAnswerIsCorrectValue = false;
-            setAnswerIsCorrect(newAnswerIsCorrectValue);
         }
 
         props.onAnswerIsGiven(
@@ -47,6 +46,17 @@ const RadioButtonGroup = (props) => {
             .catch();
     };
 
+    const getRadioButtonStyle = (option) => {
+        if (props.data.userAnswer) {
+            return {
+                color: props.data.correctAnswers.includes(Number(option.id.toString()))
+                    ? props.theme.palette.primary.main
+                    : props.theme.palette.error.main,
+            };
+        }
+        return {};
+    };
+
     return (
         <FormControl component="fieldset">
             <RadioGroup aria-label="gender" name="gender1" value={radioGroupValue} onChange={handleChange}>
@@ -55,14 +65,7 @@ const RadioButtonGroup = (props) => {
                         value={option.id.toString()}
                         disabled={disabled}
                         key={option.id}
-                        control={
-                            <Radio
-                                color={'primary'}
-                                style={
-                                    radioGroupValue === option.id.toString() && !answerIsCorrect ? { color: 'red' } : {}
-                                }
-                            />
-                        }
+                        control={<Radio color={'primary'} style={getRadioButtonStyle(option)} />}
                         label={option.answer}
                     />
                 ))}
@@ -83,4 +86,4 @@ const RadioButtonGroup = (props) => {
     );
 };
 
-export default RadioButtonGroup;
+export default withTheme(RadioButtonGroup);

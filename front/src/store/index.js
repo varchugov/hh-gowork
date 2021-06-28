@@ -41,8 +41,8 @@ class Store {
         this.menuIsLoading = state;
     };
 
-    menuSetIsLoaded = () => {
-        this.menuIsLoaded = true;
+    menuSetIsLoaded = (isLoaded) => {
+        this.menuIsLoaded = isLoaded;
     };
 
     decrementSignUpStep = () => {

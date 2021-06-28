@@ -25,7 +25,7 @@ const TestStep = (props) => {
 
     return (
         <Box mb={5}>
-            <Box mb={2} style={props.theme.h6} dangerouslySetInnerHTML={{ __html: props.data.theory }}></Box>
+            <Box mb={2} style={props.theme.testStepContent} dangerouslySetInnerHTML={{ __html: props.data.theory }} />
             {!(props.data.question.type === 'empty' && props.answerIsComplete) && (
                 <Paper elevation={10}>
                     <Box px={3} py={1.5}>
@@ -71,7 +71,7 @@ const TestStep = (props) => {
             )}
             {answerIsGiven && answerExplanation && (
                 <Box
-                    style={props.theme.h6}
+                    style={props.theme.testStepContent}
                     borderLeft={2}
                     borderColor={answerIsCorrect ? 'primary.main' : 'error.main'}
                     my={3}
