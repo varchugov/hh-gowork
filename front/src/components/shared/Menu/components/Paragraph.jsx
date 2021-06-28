@@ -5,6 +5,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import withTheme from '@material-ui/core/styles/withTheme';
 
 const TypographyListHeader = styled(Typography)`
     font-weight: 600;
@@ -24,7 +25,11 @@ const Paragraph = (props) => (
                     <ListItemLink
                         key={item.id}
                         href={paragraphIsCurrent ? '/test' : `/test?chapter=${props.value.id}&paragraph=${i + 1}`}
-                        style={paragraphIsCurrent ? { color: '#ffffff', backgroundColor: '#4caf50' } : {}}
+                        style={
+                            paragraphIsCurrent
+                                ? { color: '#ffffff', backgroundColor: props.theme.palette.primary.main }
+                                : {}
+                        }
                     >
                         <Typography>
                             {props.value.id}.{i + 1} {item.name}
@@ -41,4 +46,4 @@ const Paragraph = (props) => (
     </List>
 );
 
-export default Paragraph;
+export default withTheme(Paragraph);
