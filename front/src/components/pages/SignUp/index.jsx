@@ -25,6 +25,37 @@ import SubmitButton from 'src/components/shared/SubmitButton';
 
 import Api from 'src/api';
 
+const professions = [
+    'Информационные технологии, интернет, телеком',
+    'Бухгалтерия, управленческий учет, финансы предприятия',
+    'Маркетинг, реклама, PR',
+    'Административный персонал',
+    'Банки, инвестиции, лизинг',
+    'Управление персоналом, тренинги',
+    'Автомобильный бизнес',
+    'Безопасность',
+    'Высший менеджмент',
+    'Добыча сырья',
+    'Искусство, развлечения, масс-медиа',
+    'Консультирование',
+    'Медицина, фармацевтика',
+    'Наука, образование',
+    'Начало карьеры, студенты',
+    'Государственная служба, некоммерческие организации',
+    'Продажи',
+    'Производство',
+    'Страхование',
+    'Строительство, недвижимость',
+    'Транспорт, логистика',
+    'Туризм, гостиницы, рестораны',
+    'Юристы',
+    'Спортивные клубы, фитнес, салоны красоты',
+    'Инсталляция и сервис',
+    'Закупки',
+    'Домашний персонал',
+    'Рабочий персонал',
+];
+
 const MIN_PASSWORD_LENGTH = 8;
 const SignUp = observer((props) => {
     const [email, setEmail] = useState('');
@@ -191,7 +222,7 @@ const SignUp = observer((props) => {
                         label: (
                             <span>
                                 {'Я согласен с '}
-                                <Link href={'https://gowork.ru.com/policy'}>
+                                <Link tabIndex="-1" target="_blank" href={'https://gowork.ru.com/policy'}>
                                     {'политикой обработки персональных данных'}
                                 </Link>
                             </span>
@@ -216,8 +247,11 @@ const SignUp = observer((props) => {
             <Box style={props.theme.h4}>В какой профессиональной области вы ищете работу?</Box>
             <Box px={2} py={6}>
                 <Select labelId="label" value="item-0" variant="outlined" fullWidth={true}>
-                    <MenuItem value="item-0">Профессия 1</MenuItem>
-                    <MenuItem value="item-1">Профессия 2</MenuItem>
+                    {professions.map((profession, index) => (
+                        <MenuItem key={profession} value={`item-${index}`}>
+                            {profession}
+                        </MenuItem>
+                    ))}
                 </Select>
             </Box>
             <SubmitButton href="/course" submitButtonText="Начать учиться" />
@@ -226,7 +260,7 @@ const SignUp = observer((props) => {
 
     return (
         <React.Fragment>
-            <Header />
+            <Header progressPercentage={0} />
             <Container>
                 <Box maxWidth={props.theme.form.maxWidth} mx="auto">
                     {tutorialSteps[store.signUpStep]}
