@@ -55,6 +55,7 @@ const ExtendedFormControl = (props) => {
                                         onClick={handlePasswordVisibility}
                                         onMouseDown={handlePasswordMouseDown}
                                         edge="end"
+                                        tabIndex="-1"
                                     >
                                         {passwordIsVisible ? <Visibility /> : <VisibilityOff />}
                                     </IconButton>
