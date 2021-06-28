@@ -44,6 +44,10 @@ const MuiTheme = createMuiTheme({
         marginTop: '15px',
         marginBottom: '15px',
     },
+    testStepContent: {
+        fontSize: '14px',
+        whiteSpace: 'break-spaces',
+    },
 });
 
 export default MuiTheme;
